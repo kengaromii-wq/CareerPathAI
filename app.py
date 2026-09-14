@@ -757,16 +757,15 @@ def admin_login():
 
 
         if (
-            email == "admin@gmail.com"
-            and password == "admin123"
+    email == "admin@gmail.com"
+    and password == os.environ.get("ADMIN_PASSWORD", "admin123")
         ):
 
-            session["admin_logged_in"] = True
+          session["admin_logged_in"] = True
 
-            return redirect("/admin")
+    return redirect("/admin")
 
-
-        return "Invalid admin email or password."
+    return "Invalid admin email or password."
 
 
     return render_template(
