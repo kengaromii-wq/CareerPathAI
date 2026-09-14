@@ -747,32 +747,24 @@ def logout():
 # =========================================================
 
 @app.route("/admin-login", methods=["GET", "POST"])
+@app.route("/admin-login", methods=["GET", "POST"])
 def admin_login():
 
     if request.method == "POST":
 
         email = request.form["email"]
-
         password = request.form["password"]
 
-
         if (
-    email == "admin@gmail.com"
-    and password == os.environ.get("ADMIN_PASSWORD", "admin123")
+            email == "admin@gmail.com"
+            and password == os.environ.get("ADMIN_PASSWORD", "admin123")
         ):
+            session["admin_logged_in"] = True
+            return redirect("/admin")
 
-          session["admin_logged_in"] = True
+        return "Invalid admin email or password."
 
-    return redirect("/admin")
-
-    return "Invalid admin email or password."
-
-
-    return render_template(
-        "admin-login.html"
-    )
-
-
+    return render_template("admin-login.html")
 # =========================================================
 # ADMIN PANEL
 # =========================================================
