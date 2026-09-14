@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareerPath AI | Smart Student Career Navigator</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            CareerPath <span>AI</span>
+        </div>
+
+        <div>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Careers</a>
+            <a href="#" class="login-btn">Login</a>
+        </div>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <h1>
+                Discover Your
+                <span>Perfect Career</span>
+            </h1>
+
+            <p>
+                CareerPath AI helps students discover suitable career paths
+                based on their interests, skills and goals.
+                Get personalized recommendations, skill-gap analysis
+                and a step-by-step learning roadmap.
+            </p>
+
+            <a  href="/assessment" class="start-btn">
+                Start Career Assessment →
+            
+            </a>
+
+        </div>
+
+
+        <div class="hero-card">
+
+            <h2>🎯 Career Recommendations</h2>
+
+            <div class="career">
+                <strong>💻 Web Developer</strong>
+                <span class="score">92%</span>
+            </div>
+
+            <div class="career">
+                <strong>👨‍💻 Software Developer</strong>
+                <span class="score">86%</span>
+            </div>
+
+            <div class="career">
+                <strong>🎨 UI/UX Designer</strong>
+                <span class="score">78%</span>
+            </div>
+
+            <div class="career">
+                <strong>📊 Data Analyst</strong>
+                <span class="score">72%</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Features -->
+    <section class="features">
+
+        <h2>Why CareerPath AI?</h2>
+
+        <div class="feature-container">
+
+            <div class="feature-box">
+                <div class="icon">🎯</div>
+                <h3>Career Recommendation</h3>
+                <p>
+                    Find careers that match your interests,
+                    skills and preferences.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <div class="icon">📊</div>
+                <h3>Skill Gap Analysis</h3>
+                <p>
+                    Identify the skills you already have
+                    and the skills you need to learn.
+                </p>
+            </div>
+
+            <div class="feature-box">
+                <div class="icon">🗺️</div>
+                <h3>Learning Roadmap</h3>
+                <p>
+                    Follow a personalized roadmap to reach
+                    your desired career.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 CareerPath AI | Smart Student Career Navigator</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

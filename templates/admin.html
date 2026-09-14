@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Panel - CareerPath AI</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .stat {
+            background: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        }
+
+        .stat-icon {
+            font-size: 35px;
+        }
+
+        .stat h3 {
+            margin: 10px 0;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        }
+
+        .career-item {
+            margin-bottom: 20px;
+        }
+
+        .career-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .bar-bg {
+            width: 100%;
+            height: 14px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .bar {
+            height: 100%;
+            background: #4f46e5;
+            border-radius: 20px;
+        }
+
+        .filter-box {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-box input,
+        .filter-box select {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .filter-box input {
+            flex: 1;
+        }
+
+        .filter-box select {
+            width: 220px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f8fafc;
+        }
+
+        .view-btn {
+            display: inline-block;
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .view-btn:hover {
+            background: #3730a3;
+        }
+
+        .progress-item {
+            margin-bottom: 20px;
+        }
+
+        .progress-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        .progress-bg {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4f46e5;
+            border-radius: 20px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            background: #111827;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 8px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+
+            header {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 20px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-box {
+                flex-direction: column;
+            }
+
+            .filter-box select {
+                width: 100%;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .view-btn {
+                white-space: nowrap;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>CareerPath AI</h1>
+
+    <a href="/admin-logout" class="logout-btn">
+        Logout
+    </a>
+
+</header>
+
+
+<div class="container">
+
+
+    <h2>📊 Admin Dashboard</h2>
+
+    <p>
+        Monitor students, assessments and career progress.
+    </p>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <div class="stat-icon">👨‍🎓</div>
+
+            <h3>Total Students</h3>
+
+            <div class="stat-number">
+                {{ total_students }}
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">📝</div>
+
+            <h3>Total Assessments</h3>
+
+            <div class="stat-number">
+                {{ total_assessments }}
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">🎯</div>
+
+            <h3>Career Results</h3>
+
+            <div class="stat-number">
+                {{ career_results|length }}
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- CAREER ANALYSIS -->
+
+    <div class="card">
+
+        <h2>🎯 Career-wise Student Analysis</h2>
+
+
+        {% if career_analysis %}
+
+
+            {% for career, count in career_analysis %}
+
+                <div class="career-item">
+
+                    <div class="career-title">
+
+                        <span>
+                            {{ career }}
+                        </span>
+
+                        <span>
+                            {{ count }} Students
+                        </span>
+
+                    </div>
+
+
+                    <div class="bar-bg">
+
+                        <div
+                            class="bar career-bar"
+                            data-count="{{ count }}"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <div class="empty">
+                No career data available.
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- CAREER DISTRIBUTION -->
+
+    <div class="card">
+
+        <h2>📈 Career Distribution Chart</h2>
+
+
+        {% if career_analysis %}
+
+
+            {% for career, count in career_analysis %}
+
+                <div class="career-item">
+
+                    <div class="career-title">
+
+                        <span>
+                            {{ career }}
+                        </span>
+
+                        <span>
+                            {{ count }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="bar-bg">
+
+                        <div
+                            class="bar chart-bar"
+                            data-count="{{ count }}"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <div class="empty">
+                No career data available.
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- REGISTERED STUDENTS -->
+
+    <div class="card">
+
+        <h2>👨‍🎓 Registered Students</h2>
+
+
+        <div class="filter-box">
+
+
+            <input
+                type="text"
+                id="studentSearch"
+                placeholder="🔍 Search by name or email..."
+            >
+
+
+            <select id="careerFilter">
+
+                <option value="">
+                    🎯 All Careers
+                </option>
+
+                <option value="Software Developer">
+                    Software Developer
+                </option>
+
+                <option value="UI/UX Designer">
+                    UI/UX Designer
+                </option>
+
+                <option value="Data Analyst">
+                    Data Analyst
+                </option>
+
+                <option value="Business Analyst">
+                    Business Analyst
+                </option>
+
+            </select>
+
+
+        </div>
+
+
+        <div class="table-container">
+
+
+            <table id="studentTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Email</th>
+
+                        <th>Career</th>
+
+                        <th>Score</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for student in students %}
+
+
+                    <tr>
+
+                        <td>
+                            {{ student[0] }}
+                        </td>
+
+                        <td>
+                            {{ student[1] }}
+                        </td>
+
+                        <td>
+                            {{ student[2] or "Not Attempted" }}
+                        </td>
+
+                        <td>
+                            {{ student[3] or 0 }}%
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="/admin/student/{{ student[1] }}"
+                                class="view-btn"
+                            >
+                                👁 View Details
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- STUDENT PROGRESS -->
+
+    <div class="card">
+
+        <h2>📊 Student Progress Monitoring</h2>
+
+
+        {% if progress_data %}
+
+
+            {% for item in progress_data %}
+
+                <div class="progress-item">
+
+                    <div class="progress-title">
+
+                        <span>
+                            {{ item[0] }} — {{ item[1] }}
+                        </span>
+
+                        <span>
+                            {{ item[2] }}%
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress-bg">
+
+                        <div
+                            class="progress-fill"
+                            data-progress="{{ item[2] }}"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <div class="empty">
+                No progress data available.
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- ADMIN INFORMATION -->
+
+    <div class="card">
+
+        <h2>🔐 Admin Information</h2>
+
+        <p>
+            <strong>Admin Email:</strong>
+            admin@gmail.com
+        </p>
+
+        <p>
+            CareerPath AI – Smart Student Career Navigator
+        </p>
+
+    </div>
+
+
+    <a href="/" class="home-btn">
+        🏠 Back Home
+    </a>
+
+
+</div>
+
+
+<script>
+
+
+    /* CAREER BARS */
+
+    const careerBars =
+        document.querySelectorAll(".career-bar");
+
+
+    let maxCareerCount = 0;
+
+
+    careerBars.forEach(function(bar) {
+
+        const count =
+            Number(bar.dataset.count);
+
+        if (count > maxCareerCount) {
+            maxCareerCount = count;
+        }
+
+    });
+
+
+    careerBars.forEach(function(bar) {
+
+        const count =
+            Number(bar.dataset.count);
+
+        if (maxCareerCount > 0) {
+
+            const width =
+                (count / maxCareerCount) * 100;
+
+            bar.style.width =
+                width + "%";
+
+        }
+
+    });
+
+
+    /* CHART BARS */
+
+    const chartBars =
+        document.querySelectorAll(".chart-bar");
+
+
+    let maxChartCount = 0;
+
+
+    chartBars.forEach(function(bar) {
+
+        const count =
+            Number(bar.dataset.count);
+
+        if (count > maxChartCount) {
+            maxChartCount = count;
+        }
+
+    });
+
+
+    chartBars.forEach(function(bar) {
+
+        const count =
+            Number(bar.dataset.count);
+
+        if (maxChartCount > 0) {
+
+            const width =
+                (count / maxChartCount) * 100;
+
+            bar.style.width =
+                width + "%";
+
+        }
+
+    });
+
+
+    /* PROGRESS BARS */
+
+    const progressBars =
+        document.querySelectorAll(".progress-fill");
+
+
+    progressBars.forEach(function(bar) {
+
+        const progress =
+            Number(bar.dataset.progress);
+
+        bar.style.width =
+            progress + "%";
+
+    });
+
+
+    /* SEARCH AND FILTER */
+
+    const searchBox =
+        document.getElementById("studentSearch");
+
+    const careerFilter =
+        document.getElementById("careerFilter");
+
+    const studentTable =
+        document.getElementById("studentTable");
+
+
+    function filterStudents() {
+
+        const search =
+            searchBox.value.toLowerCase();
+
+        const selectedCareer =
+            careerFilter.value.toLowerCase();
+
+
+        const rows =
+            studentTable.querySelectorAll("tbody tr");
+
+
+        rows.forEach(function(row) {
+
+            const name =
+                row.cells[0].textContent.toLowerCase();
+
+            const email =
+                row.cells[1].textContent.toLowerCase();
+
+            const career =
+                row.cells[2].textContent.toLowerCase();
+
+
+            const searchMatch =
+                name.includes(search) ||
+                email.includes(search);
+
+
+            const careerMatch =
+                selectedCareer === "" ||
+                career === selectedCareer;
+
+
+            if (searchMatch && careerMatch) {
+
+                row.style.display = "";
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    searchBox.addEventListener(
+        "input",
+        filterStudents
+    );
+
+
+    careerFilter.addEventListener(
+        "change",
+        filterStudents
+    );
+
+
+</script>
+
+
+</body>
+
+</html>

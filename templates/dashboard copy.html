@@ -1,0 +1,595 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareerPath AI - Dashboard</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+        }
+
+        .dashboard-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+        /* =========================
+           NAVIGATION BUTTONS
+        ========================= */
+
+        .dashboard-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            display: inline-block;
+            padding: 13px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .assessment-btn {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .assessment-btn:hover {
+            background: #3730a3;
+        }
+
+        .profile-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .profile-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* RESUME BUILDER BUTTON */
+
+        .resume-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .resume-btn:hover {
+            background: #15803d;
+        }
+
+        .home-btn {
+            background: #e5e7eb;
+            color: #222;
+        }
+
+        .home-btn:hover {
+            background: #d1d5db;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #222;
+        }
+
+        .career {
+            font-size: 25px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .score {
+            font-size: 42px;
+            font-weight: bold;
+            color: #16a34a;
+        }
+
+        .skill-list {
+            padding-left: 20px;
+        }
+
+        .skill-list li {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .roadmap-list {
+            padding-left: 20px;
+        }
+
+        .roadmap-list li {
+            margin: 14px 0;
+            font-size: 16px;
+        }
+
+        /* =========================
+           SKILL GAP
+        ========================= */
+
+        .skill-gap-card {
+            grid-column: 1 / -1;
+        }
+
+        .skill-gap-intro {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .gap-item {
+            margin-bottom: 25px;
+        }
+
+        .gap-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0;
+            background: #4f46e5;
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .gap-status {
+            margin-top: 7px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* =========================
+           UPDATE PROGRESS
+        ========================= */
+
+        .update-form {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .progress-input {
+            width: 100px;
+            padding: 9px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .update-btn {
+            padding: 9px 15px;
+            border: none;
+            border-radius: 8px;
+            background: #4f46e5;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .update-btn:hover {
+            background: #3730a3;
+        }
+
+        /* =========================
+           RECOMMENDATION
+        ========================= */
+
+        .improve-box {
+            margin-top: 25px;
+            padding: 18px;
+            background: #eef2ff;
+            border-radius: 12px;
+        }
+
+        .improve-box h3 {
+            margin-top: 0;
+            color: #3730a3;
+        }
+
+        .improve-box p {
+            margin-bottom: 0;
+            color: #475569;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .skill-gap-card {
+                grid-column: auto;
+            }
+
+            .dashboard-container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+
+            .welcome h1 {
+                font-size: 25px;
+            }
+
+            .career {
+                font-size: 22px;
+            }
+
+            .score {
+                font-size: 36px;
+            }
+
+            .update-form {
+                flex-wrap: wrap;
+            }
+
+            .dashboard-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                text-align: center;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- WELCOME -->
+
+        <div class="welcome">
+
+            <h1>
+                Welcome, {{ name }} 👋
+            </h1>
+
+            <p>
+                Here is your personalized CareerPath AI dashboard.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             DASHBOARD ACTION BUTTONS
+        ========================== -->
+
+        <div class="dashboard-actions">
+
+            <a href="/assessment"
+               class="action-btn assessment-btn">
+                📋 Take Career Assessment
+            </a>
+
+            <a href="/profile"
+               class="action-btn profile-btn">
+                👤 My Profile
+            </a>
+
+            <a href="/resume"
+               class="action-btn resume-btn">
+                📄 Resume Builder
+            </a>
+
+            <a href="/"
+               class="action-btn home-btn">
+                🏠 Back to Home
+            </a>
+
+            <a href="/logout"
+               class="action-btn logout-btn">
+                🚪 Logout
+            </a>
+
+        </div>
+
+
+        <!-- DASHBOARD CARDS -->
+
+        <div class="cards">
+
+
+            <!-- CAREER -->
+
+            <div class="card">
+
+                <h2>
+                    🎯 Recommended Career
+                </h2>
+
+                <p class="career">
+                    {{ career }}
+                </p>
+
+            </div>
+
+
+            <!-- SCORE -->
+
+            <div class="card">
+
+                <h2>
+                    📊 Match Score
+                </h2>
+
+                <p class="score">
+                    {{ score }}%
+                </p>
+
+            </div>
+
+
+            <!-- SKILLS -->
+
+            <div class="card">
+
+                <h2>
+                    🧠 Skills to Learn
+                </h2>
+
+                <ul class="skill-list">
+
+                    {% for skill in skills %}
+
+                    <li>
+                        {{ skill }}
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+
+            <!-- ROADMAP -->
+
+            <div class="card">
+
+                <h2>
+                    🚀 Learning Roadmap
+                </h2>
+
+                <ol class="roadmap-list">
+
+                    {% for step in roadmap %}
+
+                    <li>
+                        {{ step }}
+                    </li>
+
+                    {% endfor %}
+
+                </ol>
+
+            </div>
+
+
+            <!-- =========================
+                 SKILL GAP ANALYSIS
+            ========================== -->
+
+            <div class="card skill-gap-card">
+
+                <h2>
+                    📈 Skill Gap Analysis
+                </h2>
+
+                <p class="skill-gap-intro">
+                    Track and update your learning progress for each skill.
+                </p>
+
+
+                {% for skill, value in progress.items() %}
+
+                <div class="gap-item">
+
+
+                    <!-- SKILL NAME -->
+
+                    <div class="gap-header">
+
+                        <span>
+                            {{ skill }}
+                        </span>
+
+                        <span>
+                            {{ value }}%
+                        </span>
+
+                    </div>
+
+
+                    <!-- PROGRESS BAR -->
+
+                    <div class="progress-bar">
+
+                        <div class="progress"
+                             data-progress="{{ value }}">
+                        </div>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    {% if value < 50 %}
+
+                    <div class="gap-status">
+                        Beginner — Needs improvement
+                    </div>
+
+                    {% elif value < 75 %}
+
+                    <div class="gap-status">
+                        Intermediate — Keep improving
+                    </div>
+
+                    {% else %}
+
+                    <div class="gap-status">
+                        Good progress — Keep practicing 🔥
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- UPDATE FORM -->
+
+                    <form class="update-form"
+                          method="POST"
+                          action="/update-progress">
+
+                        <input type="hidden"
+                               name="skill"
+                               value="{{ skill }}">
+
+                        <input class="progress-input"
+                               type="number"
+                               name="progress"
+                               min="0"
+                               max="100"
+                               value="{{ value }}"
+                               required>
+
+                        <button class="update-btn"
+                                type="submit">
+                            Update
+                        </button>
+
+                    </form>
+
+                </div>
+
+                {% endfor %}
+
+
+                <!-- RECOMMENDED FOCUS -->
+
+                <div class="improve-box">
+
+                    <h3>
+                        💡 Recommended Focus
+                    </h3>
+
+                    <p>
+                        Focus more on skills with lower progress.
+                        Practice regularly and build real-world projects
+                        to improve your career readiness.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         PROGRESS BAR JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        const progressBars =
+            document.querySelectorAll(".progress");
+
+        progressBars.forEach(function(bar) {
+
+            const value =
+                Number(bar.dataset.progress);
+
+            if (value >= 0 && value <= 100) {
+
+                bar.style.width =
+                    value + "%";
+
+            }
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>
+```

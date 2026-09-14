@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Career Assessment | CareerPath AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .assessment-page {
+            min-height: 100vh;
+            padding: 50px 8%;
+        }
+
+        .assessment-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .assessment-header h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .assessment-header h1 span {
+            color: #4f46e5;
+        }
+
+        .assessment-header p {
+            color: #64748b;
+            font-size: 17px;
+        }
+
+        .assessment-form {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .question h3 {
+            margin-bottom: 15px;
+            color: #1e293b;
+        }
+
+        .question label {
+            display: block;
+            padding: 13px 16px;
+            margin: 8px 0;
+            background: #f8fafc;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .question label:hover {
+            background: #eef2ff;
+        }
+
+        .question input {
+            margin-right: 10px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            background: #4f46e5;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #3730a3;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #4f46e5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">
+            CareerPath <span>AI</span>
+        </div>
+
+        <div>
+            <a href="/">Home</a>
+            <a href="#">About</a>
+            <a href="#">Careers</a>
+        </div>
+    </nav>
+
+    <main class="assessment-page">
+
+        <div class="assessment-header">
+
+            <h1>
+                Career <span>Assessment</span> 🎯
+            </h1>
+
+            <p>
+                Answer these questions honestly to discover
+                the career path that suits you best.
+            </p>
+
+        </div>
+
+
+        <form class="assessment-form"
+              method="POST"
+              action="/assessment">
+
+
+            <!-- QUESTION 1 -->
+
+            <div class="question">
+
+                <h3>
+                    1. What are you most interested in?
+                </h3>
+
+                <label>
+                    <input type="radio"
+                           name="interest"
+                           value="coding"
+                           required>
+
+                    Coding & Technology 💻
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="interest"
+                           value="design">
+
+                    Designing & Creativity 🎨
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="interest"
+                           value="data">
+
+                    Data & Analysis 📊
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="interest"
+                           value="business">
+
+                    Business & Management 💼
+                </label>
+
+            </div>
+
+
+            <!-- QUESTION 2 -->
+
+            <div class="question">
+
+                <h3>
+                    2. How would you rate your coding knowledge?
+                </h3>
+
+                <label>
+                    <input type="radio"
+                           name="coding"
+                           value="beginner"
+                           required>
+
+                    Beginner
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="coding"
+                           value="intermediate">
+
+                    Intermediate
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="coding"
+                           value="advanced">
+
+                    Advanced
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="coding"
+                           value="none">
+
+                    I don't know coding
+                </label>
+
+            </div>
+
+
+            <!-- QUESTION 3 -->
+
+            <div class="question">
+
+                <h3>
+                    3. How good are you at problem solving?
+                </h3>
+
+                <label>
+                    <input type="radio"
+                           name="problem_solving"
+                           value="high"
+                           required>
+
+                    Very Good 🔥
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="problem_solving"
+                           value="medium">
+
+                    Good 👍
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="problem_solving"
+                           value="low">
+
+                    Need Improvement
+                </label>
+
+            </div>
+
+
+            <!-- QUESTION 4 -->
+
+            <div class="question">
+
+                <h3>
+                    4. Which type of work do you prefer?
+                </h3>
+
+                <label>
+                    <input type="radio"
+                           name="work"
+                           value="technical"
+                           required>
+
+                    Technical Work 💻
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="work"
+                           value="creative">
+
+                    Creative Work 🎨
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="work"
+                           value="analytical">
+
+                    Analytical Work 📊
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="work"
+                           value="management">
+
+                    Management Work 👔
+                </label>
+
+            </div>
+
+
+            <!-- QUESTION 5 -->
+
+            <div class="question">
+
+                <h3>
+                    5. What is your main career goal?
+                </h3>
+
+                <label>
+                    <input type="radio"
+                           name="goal"
+                           value="developer"
+                           required>
+
+                    Become a Software/Web Developer
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="goal"
+                           value="designer">
+
+                    Become a UI/UX Designer
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="goal"
+                           value="data">
+
+                    Become a Data Analyst
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="goal"
+                           value="business">
+
+                    Business / Management
+                </label>
+
+            </div>
+
+
+            <button type="submit" class="submit-btn">
+                Analyze My Career 🚀
+            </button>
+
+
+            <a href="/" class="back-home">
+                ← Back to Home
+            </a>
+
+        </form>
+
+    </main>
+
+</body>
+
+</html>

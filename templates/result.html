@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareerPath AI - Career Result</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .result-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .result-header h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .result-header p {
+            color: #666;
+        }
+
+        .career-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+            margin-bottom: 25px;
+        }
+
+        .career-card h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .score span {
+            font-size: 40px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .result-box {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .result-box h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .result-box ul {
+            padding-left: 20px;
+        }
+
+        .result-box li {
+            margin: 10px 0;
+        }
+
+        .roadmap {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            margin-top: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .roadmap-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+            background: #f7f7ff;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 25px;
+            margin: 5px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .primary-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .secondary-btn {
+            background: #eeeeee;
+            color: #333;
+        }
+
+        .dashboard-btn {
+            background: #222;
+            color: white;
+        }
+
+        @media (max-width: 700px) {
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-header h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="result-container">
+
+        <div class="result-header">
+            <h1>🎉 Your Career Result</h1>
+            <p>CareerPath AI analyzed your assessment answers.</p>
+        </div>
+
+        <div class="career-card">
+
+            <h2>🚀 {{ career }}</h2>
+
+            <div class="score">
+                Match Score:
+                <span>{{ score }}%</span>
+            </div>
+
+            <p>
+                Based on your interests, skills and career goals,
+                this career is a strong match for you.
+            </p>
+
+        </div>
+
+        <div class="result-grid">
+
+            <div class="result-box">
+
+                <h3>📚 Skills You Should Learn</h3>
+
+                <ul>
+                    {% for skill in skills %}
+                    <li>{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+            <div class="result-box">
+
+                <h3>💡 Why This Career?</h3>
+
+                <p>
+                    Your assessment answers show that your interests
+                    and career goals are aligned with this field.
+                </p>
+
+                <p>
+                    Developing the recommended skills can help you
+                    prepare for internships and future job opportunities.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="roadmap">
+
+            <h3>🛣️ Learning Roadmap</h3>
+
+            <div class="roadmap-item">
+                <strong>Step 1:</strong> Learn the basics
+            </div>
+
+            <div class="roadmap-item">
+                <strong>Step 2:</strong> Practice small projects
+            </div>
+
+            <div class="roadmap-item">
+                <strong>Step 3:</strong> Build a portfolio
+            </div>
+
+            <div class="roadmap-item">
+                <strong>Step 4:</strong> Apply for internships
+            </div>
+
+        </div>
+
+        <div class="buttons">
+
+            <a href="/dashboard" class="btn dashboard-btn">
+                📊 Back to Dashboard
+            </a>
+
+            <a href="/assessment" class="btn primary-btn">
+                🔄 Retake Assessment
+            </a>
+
+            <a href="/" class="btn secondary-btn">
+                🏠 Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
