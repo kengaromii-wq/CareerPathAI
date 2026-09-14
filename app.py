@@ -4,29 +4,51 @@ import os
 
 app = Flask(__name__)
 
-app.secret_key = os.environ.get("SECRET_KEY", "careerpath-ai-secret-key")
-# =========================================================
-# DATABASE INITIALIZATION
-# =========================================================
+app.secret_key = os.environ.get(
+    "SECRET_KEY",
+    "careerpath-ai-secret-key"
+)
+
+
+# ==========================================
+# DATABASE
+# ==========================================
 
 def init_db():
+
+    os.makedirs("database", exist_ok=True)
 
     conn = sqlite3.connect("database/careerpath.db")
     cursor = conn.cursor()
 
-    # USERS TABLE
-    cursor.execute(
-        """
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL
         )
-        """
-    )
+    """)
 
-    # PROFILE COLUMNS
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS assessments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_email TEXT NOT NULL,
+            career TEXT NOT NULL,
+            score INTEGER NOT NULL,
+            skills TEXT NOT NULL
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS progress (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_email TEXT NOT NULL,
+            skill TEXT NOT NULL,
+            progress INTEGER DEFAULT 0
+        )
+    """)
+
     profile_columns = [
         ("education", "TEXT"),
         ("college", "TEXT"),
@@ -36,64 +58,29 @@ def init_db():
     ]
 
     for column, data_type in profile_columns:
-
         try:
             cursor.execute(
                 f"ALTER TABLE users ADD COLUMN {column} {data_type}"
             )
-
         except sqlite3.OperationalError:
             pass
-
-
-    # ASSESSMENTS TABLE
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS assessments (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_email TEXT,
-            career TEXT,
-            score INTEGER,
-            skills TEXT
-        )
-        """
-    )
-
-
-    # PROGRESS TABLE
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS progress (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_email TEXT,
-            skill TEXT,
-            progress INTEGER
-        )
-        """
-    )
-
 
     conn.commit()
     conn.close()
 
 
-# CREATE DATABASE
-init_db()
-
-
-# =========================================================
+# ==========================================
 # HOME
-# =========================================================
+# ==========================================
 
 @app.route("/")
 def home():
-
     return render_template("index.html")
 
 
-# =========================================================
+# ==========================================
 # REGISTER
-# =========================================================
+# ==========================================
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -109,14 +96,11 @@ def register():
 
         try:
 
-            cursor.execute(
-                """
+            cursor.execute("""
                 INSERT INTO users
                 (name, email, password)
                 VALUES (?, ?, ?)
-                """,
-                (name, email, password)
-            )
+            """, (name, email, password))
 
             conn.commit()
             conn.close()
@@ -132,9 +116,9 @@ def register():
     return render_template("register.html")
 
 
-# =========================================================
+# ==========================================
 # LOGIN
-# =========================================================
+# ==========================================
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -147,15 +131,12 @@ def login():
         conn = sqlite3.connect("database/careerpath.db")
         cursor = conn.cursor()
 
-        cursor.execute(
-            """
+        cursor.execute("""
             SELECT *
             FROM users
             WHERE email = ?
             AND password = ?
-            """,
-            (email, password)
-        )
+        """, (email, password))
 
         user = cursor.fetchone()
 
@@ -172,9 +153,9 @@ def login():
     return render_template("login.html")
 
 
-# =========================================================
+# ==========================================
 # DASHBOARD
-# =========================================================
+# ==========================================
 
 @app.route("/dashboard")
 def dashboard():
@@ -187,153 +168,62 @@ def dashboard():
     conn = sqlite3.connect("database/careerpath.db")
     cursor = conn.cursor()
 
-    # USER NAME
-    cursor.execute(
-        """
-        SELECT name
-        FROM users
-        WHERE email = ?
-        """,
-        (user_email,)
-    )
-
-    user = cursor.fetchone()
-
-
-    # LATEST ASSESSMENT
-    cursor.execute(
-        """
+    cursor.execute("""
         SELECT career, score, skills
         FROM assessments
         WHERE user_email = ?
         ORDER BY id DESC
         LIMIT 1
-        """,
-        (user_email,)
-    )
+    """, (user_email,))
 
-    result = cursor.fetchone()
+    assessment = cursor.fetchone()
 
+    cursor.execute("""
+        SELECT name, email
+        FROM users
+        WHERE email = ?
+    """, (user_email,))
 
-    # PROGRESS
-    cursor.execute(
-        """
+    user = cursor.fetchone()
+
+    cursor.execute("""
         SELECT skill, progress
         FROM progress
         WHERE user_email = ?
-        """,
-        (user_email,)
-    )
+        ORDER BY skill
+    """, (user_email,))
 
-    progress_data = cursor.fetchall()
+    progress = cursor.fetchall()
 
     conn.close()
 
+    career = "Not Assessed Yet"
+    score = 0
+    skills = []
 
-    # DEFAULT VALUES
-    if result:
+    if assessment:
 
-        career = result[0]
-        score = result[1]
+        career = assessment[0]
+        score = assessment[1]
 
         skills = [
             x.strip()
-            for x in result[2].split(",")
+            for x in assessment[2].split(",")
         ]
-
-    else:
-
-        career = "Not Available"
-        score = 0
-
-        skills = [
-            "Complete assessment first"
-        ]
-
-
-    # PROGRESS DICTIONARY
-    progress = {}
-
-    for skill, value in progress_data:
-        progress[skill] = value
-
-
-    # =====================================================
-    # SMART CAREER ROADMAP
-    # =====================================================
-
-    roadmap_data = {
-
-        "Software Developer": [
-            "Learn Python programming fundamentals",
-            "Learn HTML and CSS",
-            "Learn JavaScript",
-            "Build small web development projects",
-            "Learn Git and GitHub",
-            "Build a complete real-world project",
-            "Prepare resume and apply for internships/jobs"
-        ],
-
-        "UI/UX Designer": [
-            "Learn UI/UX design fundamentals",
-            "Learn Figma",
-            "Understand color, typography and layout",
-            "Learn UX research and user flow",
-            "Create wireframes and prototypes",
-            "Build a professional design portfolio",
-            "Apply for internships and junior UI/UX roles"
-        ],
-
-        "Data Analyst": [
-            "Learn Excel fundamentals",
-            "Learn SQL",
-            "Learn Python for data analysis",
-            "Learn Pandas and data cleaning",
-            "Learn Power BI or Tableau",
-            "Build data analysis projects",
-            "Prepare portfolio and apply for internships/jobs"
-        ],
-
-        "Business Analyst": [
-            "Learn business analysis fundamentals",
-            "Improve communication skills",
-            "Learn Excel",
-            "Learn requirement gathering",
-            "Learn flowcharts and documentation",
-            "Understand SQL basics",
-            "Build business analysis case studies"
-        ]
-
-    }
-
-
-    roadmap = roadmap_data.get(
-        career,
-        [
-            "Complete your career assessment",
-            "Identify your strengths",
-            "Learn the required skills",
-            "Build practical projects",
-            "Prepare your resume",
-            "Apply for internships and jobs"
-        ]
-    )
-
 
     return render_template(
         "dashboard.html",
-        name=user[0] if user else "Student",
+        user=user,
         career=career,
         score=score,
         skills=skills,
-        roadmap=roadmap,
         progress=progress
     )
 
 
-# =========================================================
+# ==========================================
 # PROFILE
-# =========================================================
+# ==========================================
 
 @app.route("/profile", methods=["GET", "POST"])
 def profile():
@@ -358,10 +248,10 @@ def profile():
 
         try:
 
-            cursor.execute(
-                """
+            cursor.execute("""
                 UPDATE users
-                SET name = ?,
+                SET
+                    name = ?,
                     email = ?,
                     education = ?,
                     college = ?,
@@ -369,18 +259,16 @@ def profile():
                     career = ?,
                     about = ?
                 WHERE email = ?
-                """,
-                (
-                    name,
-                    email,
-                    education,
-                    college,
-                    year,
-                    career,
-                    about,
-                    user_email
-                )
-            )
+            """, (
+                name,
+                email,
+                education,
+                college,
+                year,
+                career,
+                about,
+                user_email
+            ))
 
             conn.commit()
 
@@ -393,10 +281,7 @@ def profile():
 
             return "This email is already registered."
 
-
-    # GET USER DATA
-    cursor.execute(
-        """
+    cursor.execute("""
         SELECT
             name,
             email,
@@ -407,9 +292,7 @@ def profile():
             about
         FROM users
         WHERE email = ?
-        """,
-        (user_email,)
-    )
+    """, (user_email,))
 
     user = cursor.fetchone()
 
@@ -421,9 +304,9 @@ def profile():
     )
 
 
-# =========================================================
-# RESUME BUILDER
-# =========================================================
+# ==========================================
+# RESUME
+# ==========================================
 
 @app.route("/resume")
 def resume():
@@ -436,9 +319,7 @@ def resume():
     conn = sqlite3.connect("database/careerpath.db")
     cursor = conn.cursor()
 
-    # USER PROFILE
-    cursor.execute(
-        """
+    cursor.execute("""
         SELECT
             name,
             email,
@@ -449,36 +330,26 @@ def resume():
             about
         FROM users
         WHERE email = ?
-        """,
-        (user_email,)
-    )
+    """, (user_email,))
 
     user = cursor.fetchone()
 
-
-    # LATEST ASSESSMENT SKILLS
-    cursor.execute(
-        """
+    cursor.execute("""
         SELECT skills
         FROM assessments
         WHERE user_email = ?
         ORDER BY id DESC
         LIMIT 1
-        """,
-        (user_email,)
-    )
+    """, (user_email,))
 
     assessment = cursor.fetchone()
 
     conn.close()
 
-
-    # DEFAULT SKILLS
     skills = ""
 
     if assessment:
         skills = assessment[0]
-
 
     return render_template(
         "resume.html",
@@ -487,9 +358,9 @@ def resume():
     )
 
 
-# =========================================================
+# ==========================================
 # UPDATE PROGRESS
-# =========================================================
+# ==========================================
 
 @app.route("/update-progress", methods=["POST"])
 def update_progress():
@@ -500,36 +371,21 @@ def update_progress():
     user_email = session["user_email"]
 
     skill = request.form["skill"]
-
-    progress = int(
-        request.form["progress"]
-    )
-
-
-    # LIMIT PROGRESS
-    if progress < 0:
-        progress = 0
-
-    if progress > 100:
-        progress = 100
-
+    progress_value = int(request.form["progress"])
 
     conn = sqlite3.connect("database/careerpath.db")
     cursor = conn.cursor()
 
-    cursor.execute(
-        """
+    cursor.execute("""
         UPDATE progress
         SET progress = ?
         WHERE user_email = ?
         AND skill = ?
-        """,
-        (
-            progress,
-            user_email,
-            skill
-        )
-    )
+    """, (
+        progress_value,
+        user_email,
+        skill
+    ))
 
     conn.commit()
     conn.close()
@@ -537,9 +393,9 @@ def update_progress():
     return redirect("/dashboard")
 
 
-# =========================================================
-# CAREER ASSESSMENT
-# =========================================================
+# ==========================================
+# AI CAREER ASSESSMENT
+# ==========================================
 
 @app.route("/assessment", methods=["GET", "POST"])
 def assessment():
@@ -547,121 +403,220 @@ def assessment():
     if "user_email" not in session:
         return redirect("/login")
 
-
     if request.method == "POST":
 
         interest = request.form.get("interest")
-
         coding = request.form.get("coding")
-
-        problem_solving = request.form.get(
-            "problem_solving"
-        )
-
+        problem_solving = request.form.get("problem_solving")
         work = request.form.get("work")
-
         goal = request.form.get("goal")
 
+        careers = {
 
-        score = 0
+            "Software Developer": {
+                "skills": "Python, JavaScript, HTML, CSS, Git",
+                "score": 0,
+                "reasons": [],
+                "roadmap": [
+                    "Learn Python fundamentals",
+                    "Learn HTML, CSS and JavaScript",
+                    "Build small web projects",
+                    "Learn Git and GitHub",
+                    "Build a professional portfolio",
+                    "Apply for internships"
+                ]
+            },
 
+            "Data Analyst": {
+                "skills": "Python, SQL, Excel, Data Visualization",
+                "score": 0,
+                "reasons": [],
+                "roadmap": [
+                    "Learn Excel fundamentals",
+                    "Learn SQL",
+                    "Learn Python for data analysis",
+                    "Learn data visualization",
+                    "Work on data analysis projects",
+                    "Build a data analyst portfolio"
+                ]
+            },
 
-        # =================================================
-        # CAREER RECOMMENDATION
-        # =================================================
+            "UI/UX Designer": {
+                "skills": "UI Design, Figma, UX Research",
+                "score": 0,
+                "reasons": [],
+                "roadmap": [
+                    "Learn UI/UX fundamentals",
+                    "Learn Figma",
+                    "Study UX research",
+                    "Create wireframes and prototypes",
+                    "Design real-world projects",
+                    "Build a UI/UX portfolio"
+                ]
+            },
+
+            "Business Analyst": {
+                "skills": "Business Analysis, Communication, Excel, SQL",
+                "score": 0,
+                "reasons": [],
+                "roadmap": [
+                    "Learn business analysis fundamentals",
+                    "Improve communication skills",
+                    "Learn advanced Excel",
+                    "Learn basic SQL",
+                    "Practice requirement analysis",
+                    "Build business analysis case studies"
+                ]
+            }
+        }
+
+        # Interest
+
+        if interest == "coding":
+
+            careers["Software Developer"]["score"] += 30
+
+            careers["Software Developer"]["reasons"].append(
+                "You are interested in coding."
+            )
+
+        elif interest == "data":
+
+            careers["Data Analyst"]["score"] += 30
+
+            careers["Data Analyst"]["reasons"].append(
+                "You are interested in data and analysis."
+            )
+
+        elif interest == "design":
+
+            careers["UI/UX Designer"]["score"] += 30
+
+            careers["UI/UX Designer"]["reasons"].append(
+                "You are interested in design and creativity."
+            )
+
+        else:
+
+            careers["Business Analyst"]["score"] += 25
+
+            careers["Business Analyst"]["reasons"].append(
+                "Your interests match business and communication."
+            )
+
+        # Coding
+
+        if coding == "advanced":
+
+            careers["Software Developer"]["score"] += 25
+            careers["Data Analyst"]["score"] += 20
+
+        elif coding == "intermediate":
+
+            careers["Software Developer"]["score"] += 20
+            careers["Data Analyst"]["score"] += 15
+
+        elif coding == "beginner":
+
+            careers["Software Developer"]["score"] += 10
+            careers["Data Analyst"]["score"] += 10
+
+        # Problem solving
+
+        if problem_solving == "high":
+
+            careers["Software Developer"]["score"] += 20
+            careers["Data Analyst"]["score"] += 20
+            careers["Business Analyst"]["score"] += 20
+
+        elif problem_solving == "medium":
+
+            careers["Software Developer"]["score"] += 10
+            careers["Data Analyst"]["score"] += 10
+            careers["Business Analyst"]["score"] += 10
+
+        # Work
+
+        if work == "technical":
+
+            careers["Software Developer"]["score"] += 20
+
+        elif work == "analytical":
+
+            careers["Data Analyst"]["score"] += 20
+            careers["Business Analyst"]["score"] += 15
+
+        elif work == "creative":
+
+            careers["UI/UX Designer"]["score"] += 20
+
+        else:
+
+            careers["Business Analyst"]["score"] += 15
+
+        # Goal
 
         if goal == "developer":
 
-            career = "Software Developer"
-
-            skills = (
-                "Python, JavaScript, HTML, CSS"
-            )
-
+            careers["Software Developer"]["score"] += 25
 
         elif goal == "designer":
 
-            career = "UI/UX Designer"
-
-            skills = (
-                "UI Design, Figma, UX Research"
-            )
-
+            careers["UI/UX Designer"]["score"] += 25
 
         elif goal == "data":
 
-            career = "Data Analyst"
+            careers["Data Analyst"]["score"] += 25
 
-            skills = (
-                "Python, SQL, Excel, Data Visualization"
-            )
+        elif goal == "business":
 
+            careers["Business Analyst"]["score"] += 25
 
-        else:
+        # Maximum 100
 
-            career = "Business Analyst"
+        for career_name in careers:
 
-            skills = (
-                "Business Analysis, Communication, Excel"
-            )
+            if careers[career_name]["score"] > 100:
 
+                careers[career_name]["score"] = 100
 
-        # =================================================
-        # SCORE CALCULATION
-        # =================================================
+        # Sort careers
 
-        if coding == "advanced":
-            score += 25
+        recommendations = sorted(
+            careers.items(),
+            key=lambda item: item[1]["score"],
+            reverse=True
+        )
 
-        elif coding == "intermediate":
-            score += 20
+        # Default reason
 
-        elif coding == "beginner":
-            score += 10
+        for career_name, data in recommendations:
 
+            if not data["reasons"]:
 
-        if problem_solving == "high":
-            score += 25
+                data["reasons"].append(
+                    "Your assessment responses show potential for this career."
+                )
 
-        elif problem_solving == "medium":
-            score += 15
+        # Best career
 
+        best_career = recommendations[0][0]
+        best_score = recommendations[0][1]["score"]
+        best_skills = recommendations[0][1]["skills"]
 
-        if interest in ["coding", "data"]:
-            score += 20
-
-        else:
-            score += 15
-
-
-        if work in ["technical", "analytical"]:
-            score += 15
-
-        else:
-            score += 10
-
-
-        if goal:
-            score += 15
-
-
-        if score > 100:
-            score = 100
-
+        skill_list = [
+            skill.strip()
+            for skill in best_skills.split(",")
+        ]
 
         user_email = session["user_email"]
 
+        # Save assessment
 
         conn = sqlite3.connect("database/careerpath.db")
         cursor = conn.cursor()
 
-
-        # =================================================
-        # SAVE ASSESSMENT
-        # =================================================
-
-        cursor.execute(
-            """
+        cursor.execute("""
             INSERT INTO assessments
             (
                 user_email,
@@ -670,30 +625,18 @@ def assessment():
                 skills
             )
             VALUES (?, ?, ?, ?)
-            """,
-            (
-                user_email,
-                career,
-                score,
-                skills
-            )
-        )
+        """, (
+            user_email,
+            best_career,
+            best_score,
+            best_skills
+        ))
 
-
-        # =================================================
-        # DEFAULT PROGRESS
-        # =================================================
-
-        skill_list = [
-            x.strip()
-            for x in skills.split(",")
-        ]
-
+        # Save skills to progress
 
         for skill in skill_list:
 
-            cursor.execute(
-                """
+            cursor.execute("""
                 INSERT OR IGNORE INTO progress
                 (
                     user_email,
@@ -701,52 +644,46 @@ def assessment():
                     progress
                 )
                 VALUES (?, ?, ?)
-                """,
-                (
-                    user_email,
-                    skill,
-                    0
-                )
-            )
-
+            """, (
+                user_email,
+                skill,
+                0
+            ))
 
         conn.commit()
         conn.close()
 
-
         return render_template(
-            "result.html",
-            career=career,
-            score=score,
-            skills=skill_list
-        )
+    "result.html",
+    career=best_career,
+    score=best_score,
+    skills=skill_list,
+    recommendations=recommendations,
+    roadmap=careers[best_career]["roadmap"],
+    progress=[
+        (skill, 0)
+        for skill in skill_list
+    ]
+)
+    return render_template("assessment.html")
 
 
-    return render_template(
-        "assessment.html"
-    )
-
-
-# =========================================================
+# ==========================================
 # LOGOUT
-# =========================================================
+# ==========================================
 
 @app.route("/logout")
 def logout():
 
-    session.pop(
-        "user_email",
-        None
-    )
+    session.clear()
 
-    return redirect("/login")
+    return redirect("/")
 
 
-# =========================================================
+# ==========================================
 # ADMIN LOGIN
-# =========================================================
+# ==========================================
 
-@app.route("/admin-login", methods=["GET", "POST"])
 @app.route("/admin-login", methods=["GET", "POST"])
 def admin_login():
 
@@ -757,17 +694,115 @@ def admin_login():
 
         if (
             email == "admin@gmail.com"
-            and password == os.environ.get("ADMIN_PASSWORD", "admin123")
+            and password == os.environ.get(
+                "ADMIN_PASSWORD",
+                "admin123"
+            )
         ):
+
             session["admin_logged_in"] = True
+
             return redirect("/admin")
 
         return "Invalid admin email or password."
 
     return render_template("admin-login.html")
-# =========================================================
-# ADMIN PANEL
-# =========================================================
+
+
+# ==========================================
+# ADMIN DASHBOARD
+# ==========================================
+
+@app.route("/admin")
+def admin():
+
+    if not session.get("admin_logged_in"):
+        return redirect("/admin-login")
+
+    conn = sqlite3.connect("database/careerpath.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT COUNT(*)
+        FROM users
+    """)
+
+    total_students = cursor.fetchone()[0]
+
+    cursor.execute("""
+        SELECT COUNT(*)
+        FROM assessments
+    """)
+
+    total_assessments = cursor.fetchone()[0]
+
+    cursor.execute("""
+        SELECT career, COUNT(*)
+        FROM assessments
+        GROUP BY career
+    """)
+
+    career_results = cursor.fetchall()
+
+    cursor.execute("""
+        SELECT
+            users.name,
+            users.email,
+            assessments.career,
+            assessments.score
+        FROM users
+        LEFT JOIN assessments
+        ON users.email = assessments.user_email
+        AND assessments.id = (
+            SELECT MAX(a2.id)
+            FROM assessments a2
+            WHERE a2.user_email = users.email
+        )
+        ORDER BY users.id DESC
+    """)
+
+    students = cursor.fetchall()
+
+    cursor.execute("""
+        SELECT
+            user_email,
+            skill,
+            progress
+        FROM progress
+        ORDER BY user_email
+    """)
+
+    progress_data = cursor.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "admin.html",
+        total_students=total_students,
+        total_assessments=total_assessments,
+        career_results=career_results,
+        career_analysis=career_results,
+        students=students,
+        progress_data=progress_data
+    )
+
+
+# ==========================================
+# ADMIN LOGOUT
+# ==========================================
+
+@app.route("/admin-logout")
+def admin_logout():
+
+    session.pop("admin_logged_in", None)
+
+    return redirect("/admin-login")
+
+
+# ==========================================
+# ADMIN STUDENT DETAILS
+# ==========================================
+
 @app.route("/admin/student/<email>")
 def admin_student(email):
 
@@ -777,7 +812,6 @@ def admin_student(email):
     conn = sqlite3.connect("database/careerpath.db")
     cursor = conn.cursor()
 
-    # Student Profile
     cursor.execute("""
         SELECT
             name,
@@ -793,7 +827,6 @@ def admin_student(email):
 
     student = cursor.fetchone()
 
-    # Latest Assessment
     cursor.execute("""
         SELECT
             career,
@@ -805,9 +838,8 @@ def admin_student(email):
         LIMIT 1
     """, (email,))
 
-    assessment = cursor.fetchone()
+    assessment_data = cursor.fetchone()
 
-    # Skill Progress
     cursor.execute("""
         SELECT
             skill,
@@ -827,130 +859,16 @@ def admin_student(email):
     return render_template(
         "admin_student.html",
         student=student,
-        assessment=assessment,
+        assessment=assessment_data,
         student_progress=student_progress
     )
-@app.route("/admin")
-def admin():
-
-    if not session.get("admin_logged_in"):
-
-        return redirect("/admin-login")
 
 
-    conn = sqlite3.connect("database/careerpath.db")
-    cursor = conn.cursor()
+# ==========================================
+# START SERVER
+# ==========================================
 
-
-    # TOTAL STUDENTS
-
-    cursor.execute(
-        """
-        SELECT COUNT(*)
-        FROM users
-        """
-    )
-
-    total_students = cursor.fetchone()[0]
-
-
-    # TOTAL ASSESSMENTS
-
-    cursor.execute(
-        """
-        SELECT COUNT(*)
-        FROM assessments
-        """
-    )
-
-    total_assessments = cursor.fetchone()[0]
-
-
-    # CAREER RESULTS
-
-    cursor.execute(
-        """
-        SELECT career, COUNT(*)
-        FROM assessments
-        GROUP BY career
-        """
-    )
-
-    career_results = cursor.fetchall()
-
-
-    # REGISTERED STUDENTS
-
-    cursor.execute(
-        """
-        SELECT
-            users.name,
-            users.email,
-            assessments.career,
-            assessments.score
-        FROM users
-        LEFT JOIN assessments
-        ON users.email = assessments.user_email
-        AND assessments.id = (
-            SELECT MAX(a2.id)
-            FROM assessments a2
-            WHERE a2.user_email = users.email
-        )
-        ORDER BY users.id DESC
-        """
-    )
-
-    students = cursor.fetchall()
-
-
-    # STUDENT PROGRESS
-
-    cursor.execute(
-        """
-        SELECT
-            user_email,
-            skill,
-            progress
-        FROM progress
-        ORDER BY user_email
-        """
-    )
-
-    progress_data = cursor.fetchall()
-
-
-    conn.close()
-
-
-    return render_template(
-        "admin.html",
-        total_students=total_students,
-        total_assessments=total_assessments,
-        career_results=career_results,
-        career_analysis=career_results,
-        students=students,
-        progress_data=progress_data
-    )
-
-
-# =========================================================
-# ADMIN LOGOUT
-# =========================================================
-
-@app.route("/admin-logout")
-def admin_logout():
-
-    session.pop(
-        "admin_logged_in",
-        None
-    )
-
-    return redirect("/admin-login")
-
-
-# =========================================================
-# RUN APPLICATION
-# =========================================================
+init_db()
 
 if __name__ == "__main__":
 

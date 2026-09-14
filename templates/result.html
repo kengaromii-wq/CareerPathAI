@@ -5,94 +5,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CareerPath AI - Career Result</title>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>CareerPath AI - Results</title>
 
     <style>
-        .result-container {
-            max-width: 1000px;
-            margin: 50px auto;
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7ff;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
             padding: 20px;
         }
 
-        .result-header {
+        .header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
-        .result-header h1 {
-            font-size: 38px;
+        .header h1 {
+            font-size: 36px;
             margin-bottom: 10px;
         }
 
-        .result-header p {
+        .header p {
             color: #666;
         }
 
-        .career-card {
+        .best {
             background: white;
             padding: 35px;
             border-radius: 20px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.10);
-            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
         }
 
-        .career-card h2 {
-            font-size: 32px;
-            margin-bottom: 15px;
+        .best h2 {
+            font-size: 30px;
         }
 
         .score {
-            font-size: 24px;
+            font-size: 42px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin: 15px 0;
         }
 
-        .score span {
-            font-size: 40px;
+        .section-title {
+            text-align: center;
+            margin: 35px 0 20px;
         }
 
-        .result-grid {
+        .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
 
-        .result-box {
+        .card {
             background: white;
             padding: 25px;
             border-radius: 18px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
-        .result-box h3 {
+        .card h3 {
             font-size: 22px;
-            margin-bottom: 15px;
+            margin-top: 0;
         }
 
-        .result-box ul {
-            padding-left: 20px;
+        .percentage {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 15px 0;
         }
 
-        .result-box li {
-            margin: 10px 0;
+        .reason {
+            color: #555;
+            line-height: 1.6;
         }
 
-        .roadmap {
+        .skill {
+            display: inline-block;
+            background: #eeeeff;
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .section {
             background: white;
             padding: 30px;
             border-radius: 18px;
-            margin-top: 25px;
+            margin-top: 30px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
+        .gap-card {
+            background: #f7f7ff;
+            padding: 18px;
+            margin: 12px 0;
+            border-radius: 12px;
+        }
+
+        .beginner {
+            display: inline-block;
+            background: #ffe5e5;
+            color: #c62828;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
         .roadmap-item {
-            padding: 15px;
+            background: #f7f7ff;
+            padding: 17px;
             margin: 10px 0;
             border-left: 4px solid #667eea;
-            background: #f7f7ff;
+            border-radius: 6px;
         }
 
         .buttons {
@@ -102,136 +141,249 @@
 
         .btn {
             display: inline-block;
-            padding: 13px 25px;
+            padding: 13px 22px;
             margin: 5px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: bold;
         }
 
-        .primary-btn {
-            background: #667eea;
-            color: white;
-        }
-
-        .secondary-btn {
-            background: #eeeeee;
-            color: #333;
-        }
-
-        .dashboard-btn {
+        .dashboard {
             background: #222;
             color: white;
         }
 
+        .retake {
+            background: #667eea;
+            color: white;
+        }
+
+        .home {
+            background: #e5e5e5;
+            color: #222;
+        }
+
         @media (max-width: 700px) {
-            .result-grid {
+
+            .container {
+                margin: 15px auto;
+                padding: 15px;
+            }
+
+            .grid {
                 grid-template-columns: 1fr;
             }
 
-            .result-header h1 {
-                font-size: 30px;
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .best h2 {
+                font-size: 25px;
+            }
+
+            .score {
+                font-size: 36px;
+            }
+
+            .btn {
+                display: block;
+                margin: 10px 0;
             }
         }
     </style>
+
 </head>
 
 <body>
 
-    <div class="result-container">
+<div class="container">
 
-        <div class="result-header">
-            <h1>🎉 Your Career Result</h1>
-            <p>CareerPath AI analyzed your assessment answers.</p>
+    <div class="header">
+
+        <h1>🎉 Your Career Recommendations</h1>
+
+        <p>
+            CareerPath AI analyzed your assessment responses
+            and found suitable career paths for you.
+        </p>
+
+    </div>
+
+
+    <!-- BEST CAREER -->
+
+    <div class="best">
+
+        <h2>
+            🚀 {{ career }}
+        </h2>
+
+        <p>
+            Your Best Career Match
+        </p>
+
+        <div class="score">
+            {{ score }}%
         </div>
 
-        <div class="career-card">
+        <p>
+            This is your strongest career match based on your assessment.
+        </p>
 
-            <h2>🚀 {{ career }}</h2>
+    </div>
 
-            <div class="score">
-                Match Score:
-                <span>{{ score }}%</span>
+
+    <!-- RECOMMENDATIONS -->
+
+    <h2 class="section-title">
+        🤖 Career Recommendations
+    </h2>
+
+    <div class="grid">
+
+        {% for career_name, data in recommendations %}
+
+        <div class="card">
+
+            <h3>
+
+                {% if loop.index == 1 %}
+                    🥇
+                {% elif loop.index == 2 %}
+                    🥈
+                {% elif loop.index == 3 %}
+                    🥉
+                {% else %}
+                    ⭐
+                {% endif %}
+
+                {{ career_name }}
+
+            </h3>
+
+            <div class="percentage">
+                {{ data.score }}% Match
             </div>
 
+            <p class="reason">
+
+                <strong>Why this career?</strong><br>
+
+                {{ data.reasons[0] }}
+
+            </p>
+
+            <strong>
+                Required Skills:
+            </strong>
+
+            <div>
+
+                {% for skill in data.skills.split(",") %}
+
+                <span class="skill">
+                    {{ skill.strip() }}
+                </span>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- SKILL GAP -->
+
+    <div class="section">
+
+        <h2>
+            ⚠️ Skill Gap
+        </h2>
+
+        <p>
+            These are the important skills you should develop
+            for your recommended career.
+        </p>
+
+
+        {% for skill in skills %}
+
+        <div class="gap-card">
+
+            <h3>
+                📚 {{ skill }}
+            </h3>
+
+            <span class="beginner">
+                🔴 Beginner
+            </span>
+
             <p>
-                Based on your interests, skills and career goals,
-                this career is a strong match for you.
+                Start learning this skill and practice it
+                through real projects.
             </p>
 
         </div>
 
-        <div class="result-grid">
-
-            <div class="result-box">
-
-                <h3>📚 Skills You Should Learn</h3>
-
-                <ul>
-                    {% for skill in skills %}
-                    <li>{{ skill }}</li>
-                    {% endfor %}
-                </ul>
-
-            </div>
-
-            <div class="result-box">
-
-                <h3>💡 Why This Career?</h3>
-
-                <p>
-                    Your assessment answers show that your interests
-                    and career goals are aligned with this field.
-                </p>
-
-                <p>
-                    Developing the recommended skills can help you
-                    prepare for internships and future job opportunities.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="roadmap">
-
-            <h3>🛣️ Learning Roadmap</h3>
-
-            <div class="roadmap-item">
-                <strong>Step 1:</strong> Learn the basics
-            </div>
-
-            <div class="roadmap-item">
-                <strong>Step 2:</strong> Practice small projects
-            </div>
-
-            <div class="roadmap-item">
-                <strong>Step 3:</strong> Build a portfolio
-            </div>
-
-            <div class="roadmap-item">
-                <strong>Step 4:</strong> Apply for internships
-            </div>
-
-        </div>
-
-        <div class="buttons">
-
-            <a href="/dashboard" class="btn dashboard-btn">
-                📊 Back to Dashboard
-            </a>
-
-            <a href="/assessment" class="btn primary-btn">
-                🔄 Retake Assessment
-            </a>
-
-            <a href="/" class="btn secondary-btn">
-                🏠 Back to Home
-            </a>
-
-        </div>
+        {% endfor %}
 
     </div>
+
+
+    <!-- ROADMAP -->
+
+    <div class="section">
+
+        <h2>
+            🛣️ {{ career }} Roadmap
+        </h2>
+
+        <p>
+            Follow these steps to build your career skills.
+        </p>
+
+
+        {% for step in roadmap %}
+
+        <div class="roadmap-item">
+
+            <strong>
+                Step {{ loop.index }}:
+            </strong>
+
+            {{ step }}
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- BUTTONS -->
+
+    <div class="buttons">
+
+        <a href="/dashboard" class="btn dashboard">
+            📊 Dashboard
+        </a>
+
+        <a href="/assessment" class="btn retake">
+            🔄 Retake Assessment
+        </a>
+
+        <a href="/" class="btn home">
+            🏠 Home
+        </a>
+
+    </div>
+
+</div>
 
 </body>
 
