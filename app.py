@@ -1,11 +1,10 @@
 from flask import Flask, render_template, request, redirect, session
 import sqlite3
+import os
 
 app = Flask(__name__)
 
-app.secret_key = "careerpath-ai-secret-key"
-
-
+app.secret_key = os.environ.get("SECRET_KEY", "careerpath-ai-secret-key")
 # =========================================================
 # DATABASE INITIALIZATION
 # =========================================================
