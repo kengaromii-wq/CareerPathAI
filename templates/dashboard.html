@@ -60,6 +60,9 @@
             transition: 0.3s;
         }
 
+
+        /* Assessment */
+
         .assessment-btn {
             background: #4f46e5;
             color: white;
@@ -67,7 +70,11 @@
 
         .assessment-btn:hover {
             background: #3730a3;
+            transform: translateY(-2px);
         }
+
+
+        /* Profile */
 
         .profile-btn {
             background: #2563eb;
@@ -76,7 +83,11 @@
 
         .profile-btn:hover {
             background: #1d4ed8;
+            transform: translateY(-2px);
         }
+
+
+        /* Resume */
 
         .resume-btn {
             background: #16a34a;
@@ -85,7 +96,39 @@
 
         .resume-btn:hover {
             background: #15803d;
+            transform: translateY(-2px);
         }
+
+
+        /* =========================
+           AI CAREER BUTTON
+        ========================= */
+
+        .ai-btn {
+            background: linear-gradient(
+                135deg,
+                #7c3aed,
+                #4f46e5
+            );
+
+            color: white;
+
+            box-shadow:
+                0 5px 15px rgba(79, 70, 229, 0.25);
+        }
+
+        .ai-btn:hover {
+            background: linear-gradient(
+                135deg,
+                #6d28d9,
+                #3730a3
+            );
+
+            transform: translateY(-2px);
+        }
+
+
+        /* Home */
 
         .home-btn {
             background: #e5e7eb;
@@ -94,7 +137,11 @@
 
         .home-btn:hover {
             background: #d1d5db;
+            transform: translateY(-2px);
         }
+
+
+        /* Logout */
 
         .logout-btn {
             background: #ef4444;
@@ -103,6 +150,7 @@
 
         .logout-btn:hover {
             background: #dc2626;
+            transform: translateY(-2px);
         }
 
 
@@ -120,7 +168,9 @@
             background: white;
             padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.08);
         }
 
         .card h2 {
@@ -128,11 +178,17 @@
             color: #222;
         }
 
+
+        /* Career */
+
         .career {
             font-size: 25px;
             font-weight: bold;
             color: #4f46e5;
         }
+
+
+        /* Score */
 
         .score {
             font-size: 42px;
@@ -185,37 +241,58 @@
         .gap-item {
             margin-bottom: 28px;
             padding: 18px;
+
             border: 1px solid #e5e7eb;
+
             border-radius: 12px;
+
             background: #fafafa;
         }
 
         .gap-header {
             display: flex;
             justify-content: space-between;
+
             margin-bottom: 8px;
+
             font-weight: bold;
         }
+
+
+        /* Progress Bar */
 
         .progress-bar {
             width: 100%;
             height: 12px;
+
             background: #e5e7eb;
+
             border-radius: 20px;
+
             overflow: hidden;
         }
 
         .progress {
             height: 100%;
+
             width: 0;
+
             background: #4f46e5;
+
             border-radius: 20px;
-            transition: width 0.5s ease;
+
+            transition:
+                width 0.5s ease;
         }
+
+
+        /* Status */
 
         .gap-status {
             margin-top: 8px;
+
             font-size: 14px;
+
             color: #64748b;
         }
 
@@ -226,10 +303,15 @@
 
         .status-badge {
             display: inline-block;
+
             margin-top: 10px;
+
             padding: 6px 12px;
+
             border-radius: 20px;
+
             font-size: 13px;
+
             font-weight: bold;
         }
 
@@ -255,26 +337,40 @@
 
         .update-form {
             margin-top: 14px;
+
             display: flex;
+
             gap: 10px;
+
             align-items: center;
         }
 
         .progress-input {
             width: 100px;
+
             padding: 9px;
-            border: 1px solid #d1d5db;
+
+            border:
+                1px solid #d1d5db;
+
             border-radius: 8px;
+
             font-size: 15px;
         }
 
         .update-btn {
             padding: 9px 15px;
+
             border: none;
+
             border-radius: 8px;
+
             background: #4f46e5;
+
             color: white;
+
             cursor: pointer;
+
             font-weight: bold;
         }
 
@@ -289,35 +385,100 @@
 
         .improve-box {
             margin-top: 25px;
+
             padding: 20px;
+
             background: #eef2ff;
+
             border-radius: 12px;
         }
 
         .improve-box h3 {
             margin-top: 0;
+
             color: #3730a3;
         }
 
         .improve-box p {
             margin-bottom: 0;
+
             color: #475569;
+
             line-height: 1.6;
         }
 
 
         /* =========================
-           QUICK SUMMARY
+           PROGRESS SUMMARY
+        ========================= */
+
+        .progress-summary {
+            margin-top: 25px;
+        }
+
+        .progress-summary h2 {
+            margin-bottom: 20px;
+        }
+
+        .summary-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+        }
+
+        .summary-item {
+            padding: 20px;
+
+            border-radius: 15px;
+
+            background: #f8fafc;
+
+            text-align: center;
+
+            border:
+                1px solid #e5e7eb;
+        }
+
+        .summary-icon {
+            font-size: 32px;
+
+            margin-bottom: 10px;
+        }
+
+        .summary-item h3 {
+            margin: 5px 0;
+
+            font-size: 17px;
+        }
+
+        .summary-item p {
+            margin: 8px 0 0;
+
+            font-weight: 600;
+
+            font-size: 16px;
+        }
+
+
+        /* =========================
+           CAREER READINESS
         ========================= */
 
         .summary-box {
             grid-column: 1 / -1;
-            background: linear-gradient(
-                135deg,
-                #eef2ff,
-                #f8fafc
-            );
-            border-left: 5px solid #4f46e5;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #f8fafc
+                );
+
+            border-left:
+                5px solid #4f46e5;
         }
 
         .summary-box h2 {
@@ -326,6 +487,7 @@
 
         .summary-box p {
             color: #475569;
+
             line-height: 1.6;
         }
 
@@ -347,6 +509,7 @@
 
             .dashboard-container {
                 margin: 20px auto;
+
                 padding: 15px;
             }
 
@@ -373,69 +536,27 @@
             .action-btn {
                 text-align: center;
             }
+
         }
-           
 
-        /* =========================
-   PROGRESS SUMMARY
-========================= */
 
-.progress-summary {
-    margin-top: 25px;
-}
+        @media (max-width: 768px) {
 
-.progress-summary h2 {
-    margin-bottom: 20px;
-}
+            .summary-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
 
-.summary-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-}
+        }
 
-.summary-item {
-    padding: 20px;
-    border-radius: 15px;
-    background: #f8fafc;
-    text-align: center;
-    border: 1px solid #e5e7eb;
-}
 
-.summary-icon {
-    font-size: 32px;
-    margin-bottom: 10px;
-}
+        @media (max-width: 480px) {
 
-.summary-item h3 {
-    margin: 5px 0;
-    font-size: 17px;
-}
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
 
-.summary-item p {
-    margin: 8px 0 0;
-    font-weight: 600;
-    font-size: 16px;
-}
-
-/* Mobile */
-
-@media (max-width: 768px) {
-
-    .summary-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-}
-
-@media (max-width: 480px) {
-
-    .summary-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
+        }
 
     </style>
 
@@ -444,373 +565,606 @@
 
 <body>
 
-    <div class="dashboard-container">
+
+<div class="dashboard-container">
 
 
-        <!-- WELCOME -->
+    <!-- =========================
+         WELCOME
+    ========================== -->
 
-        <div class="welcome">
+    <div class="welcome">
 
-            <h1>
-                Welcome, {{ name }} 👋
-            </h1>
+        <h1>
+            Welcome, {{ name }} 👋
+        </h1>
 
-            <p>
-                Here is your personalized CareerPath AI dashboard.
+        <p>
+            Here is your personalized
+            CareerPath AI dashboard.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         ACTION BUTTONS
+    ========================== -->
+
+    <div class="dashboard-actions">
+
+
+        <a href="/assessment"
+           class="action-btn assessment-btn">
+
+            📋 Take Career Assessment
+
+        </a>
+
+
+        <a href="/profile"
+           class="action-btn profile-btn">
+
+            👤 My Profile
+
+        </a>
+
+
+        <a href="/resume"
+           class="action-btn resume-btn">
+
+            📄 Resume Builder
+
+        </a>
+
+
+        <!-- =========================
+             NEW AI CAREER BUTTON
+        ========================== -->
+
+        <a href="/career-ai"
+           class="action-btn ai-btn">
+
+            🤖 Ask Career AI
+
+        </a>
+
+
+        <a href="/"
+           class="action-btn home-btn">
+
+            🏠 Back to Home
+
+        </a>
+
+
+        <a href="/logout"
+           class="action-btn logout-btn">
+
+            🚪 Logout
+
+        </a>
+
+
+    </div>
+
+
+    <!-- =========================
+         DASHBOARD CARDS
+    ========================== -->
+
+    <div class="cards">
+
+
+        <!-- =========================
+             RECOMMENDED CAREER
+        ========================== -->
+
+        <div class="card">
+
+            <h2>
+                🎯 Recommended Career
+            </h2>
+
+            <p class="career">
+
+                {{ career }}
+
             </p>
 
         </div>
 
 
         <!-- =========================
-             ACTION BUTTONS
+             MATCH SCORE
         ========================== -->
 
-        <div class="dashboard-actions">
+        <div class="card">
 
-            <a href="/assessment"
-               class="action-btn assessment-btn">
-                📋 Take Career Assessment
-            </a>
+            <h2>
+                📊 Match Score
+            </h2>
 
-            <a href="/profile"
-               class="action-btn profile-btn">
-                👤 My Profile
-            </a>
+            <p class="score">
 
-            <a href="/resume"
-               class="action-btn resume-btn">
-                📄 Resume Builder
-            </a>
+                {{ score }}%
 
-            <a href="/"
-               class="action-btn home-btn">
-                🏠 Back to Home
-            </a>
-
-            <a href="/logout"
-               class="action-btn logout-btn">
-                🚪 Logout
-            </a>
+            </p>
 
         </div>
 
 
         <!-- =========================
-             DASHBOARD CARDS
+             SKILLS
         ========================== -->
 
-        <div class="cards">
+        <div class="card">
 
+            <h2>
+                🧠 Skills to Learn
+            </h2>
 
-            <!-- CAREER -->
+            <ul class="skill-list">
 
-            <div class="card">
+                {% for skill in skills %}
 
-                <h2>
-                    🎯 Recommended Career
-                </h2>
+                <li>
+                    {{ skill }}
+                </li>
 
-                <p class="career">
-                    {{ career }}
-                </p>
+                {% endfor %}
 
-            </div>
+            </ul>
 
+        </div>
 
-            <!-- SCORE -->
 
-            <div class="card">
+        <!-- =========================
+             ROADMAP
+        ========================== -->
 
-                <h2>
-                    📊 Match Score
-                </h2>
+        <div class="card">
 
-                <p class="score">
-                    {{ score }}%
-                </p>
+            <h2>
+                🚀 Learning Roadmap
+            </h2>
 
-            </div>
+            <ol class="roadmap-list">
 
+                {% for step in roadmap %}
 
-            <!-- SKILLS -->
+                <li>
+                    {{ step }}
+                </li>
 
-            <div class="card">
+                {% endfor %}
 
-                <h2>
-                    🧠 Skills to Learn
-                </h2>
+            </ol>
 
-                <ul class="skill-list">
+        </div>
 
-                    {% for skill in skills %}
 
-                    <li>
-                        {{ skill }}
-                    </li>
+        <!-- =========================
+             SKILL GAP ANALYSIS
+        ========================== -->
 
-                    {% endfor %}
+        <div class="card skill-gap-card">
 
-                </ul>
 
-            </div>
+            <h2>
+                📈 Skill Gap Analysis
+            </h2>
 
 
-            <!-- ROADMAP -->
+            <p class="skill-gap-intro">
 
-            <div class="card">
+                Track your skills and identify
+                which areas need more improvement.
 
-                <h2>
-                    🚀 Learning Roadmap
-                </h2>
+            </p>
 
-                <ol class="roadmap-list">
 
-                    {% for step in roadmap %}
+            {% if progress %}
 
-                    <li>
-                        {{ step }}
-                    </li>
 
-                    {% endfor %}
+                {% for skill, value in progress %}
 
-                </ol>
 
-            </div>
+                <div class="gap-item">
 
 
-            <!-- =========================
-                 SKILL GAP ANALYSIS
-            ========================== -->
+                    <!-- Skill Header -->
 
-            <div class="card skill-gap-card">
+                    <div class="gap-header">
 
-                <h2>
-                    📈 Skill Gap Analysis
-                </h2>
+                        <span>
 
-                <p class="skill-gap-intro">
-                    Track your skills and identify which areas need more improvement.
-                </p>
+                            🧠 {{ skill }}
 
+                        </span>
 
-                {% if progress %}
 
-                   {% for skill, value in progress %}
+                        <span>
 
-                    <div class="gap-item">
+                            {{ value }}%
 
-
-                        <!-- SKILL NAME -->
-
-                        <div class="gap-header">
-
-                            <span>
-                                🧠 {{ skill }}
-                            </span>
-
-                            <span>
-                                {{ value }}%
-                            </span>
-
-                        </div>
-
-
-                        <!-- PROGRESS BAR -->
-
-                        <div class="progress-bar">
-
-                            <div class="progress"
-                                 data-progress="{{ value }}">
-                            </div>
-
-                        </div>
-
-
-                        <!-- STATUS -->
-
-                        {% if value < 50 %}
-
-                            <div class="status-badge beginner">
-                                🔴 Beginner
-                            </div>
-
-                            <div class="gap-status">
-                                Needs more practice and learning.
-                            </div>
-
-                        {% elif value < 75 %}
-
-                            <div class="status-badge intermediate">
-                                🟡 Intermediate
-                            </div>
-
-                            <div class="gap-status">
-                                Good progress. Keep practicing.
-                            </div>
-
-                        {% else %}
-
-                            <div class="status-badge good">
-                                🟢 Good Progress
-                            </div>
-
-                            <div class="gap-status">
-                                Strong progress. Keep improving. 🔥
-                            </div>
-
-                        {% endif %}
-
-
-                        <!-- UPDATE FORM -->
-
-                        <form class="update-form"
-                              method="POST"
-                              action="/update-progress">
-
-                            <input type="hidden"
-                                   name="skill"
-                                   value="{{ skill }}">
-
-                            <input class="progress-input"
-                                   type="number"
-                                   name="progress"
-                                   min="0"
-                                   max="100"
-                                   value="{{ value }}"
-                                   required>
-
-                            <button class="update-btn"
-                                    type="submit">
-                                Update
-                            </button>
-
-                        </form>
-
+                        </span>
 
                     </div>
 
-                    {% endfor %}
 
-                {% else %}
+                    <!-- Progress -->
 
-                    <p>
-                        Complete your Career Assessment first to see your skill gap.
-                    </p>
+                    <div class="progress-bar">
 
-                {% endif %}
+                        <div class="progress"
+                             data-progress="{{ value }}">
+
+                        </div>
+
+                    </div>
 
 
-                <!-- =========================
-                     RECOMMENDED FOCUS
-                ========================== -->
+                    <!-- Status -->
 
-                <div class="improve-box">
+                    {% if value < 50 %}
 
-                    <h3>
-                        💡 Recommended Focus
-                    </h3>
+                        <div class="status-badge beginner">
 
-                    <p>
-                        Focus more on skills with lower progress.
-                        Practice regularly and build real-world projects
-                        to improve your career readiness.
-                    </p>
+                            🔴 Beginner
+
+                        </div>
+
+
+                        <div class="gap-status">
+
+                            Needs more practice
+                            and learning.
+
+                        </div>
+
+
+                    {% elif value < 75 %}
+
+
+                        <div class="status-badge intermediate">
+
+                            🟡 Intermediate
+
+                        </div>
+
+
+                        <div class="gap-status">
+
+                            Good progress.
+                            Keep practicing.
+
+                        </div>
+
+
+                    {% else %}
+
+
+                        <div class="status-badge good">
+
+                            🟢 Good Progress
+
+                        </div>
+
+
+                        <div class="gap-status">
+
+                            Strong progress.
+                            Keep improving. 🔥
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                    <!-- Update Progress -->
+
+                    <form class="update-form"
+                          method="POST"
+                          action="/update-progress">
+
+
+                        <input type="hidden"
+                               name="skill"
+                               value="{{ skill }}">
+
+
+                        <input
+                            class="progress-input"
+                            type="number"
+                            name="progress"
+                            min="0"
+                            max="100"
+                            value="{{ value }}"
+                            required>
+
+
+                        <button
+                            class="update-btn"
+                            type="submit">
+
+                            Update
+
+                        </button>
+
+
+                    </form>
+
 
                 </div>
 
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+                <p>
+
+                    Complete your Career Assessment
+                    first to see your skill gap.
+
+                </p>
+
+
+            {% endif %}
+
+
+            <!-- =========================
+                 RECOMMENDED FOCUS
+            ========================== -->
+
+            <div class="improve-box">
+
+
+                <h3>
+
+                    💡 Recommended Focus
+
+                </h3>
+
+
+                <p>
+
+                    Focus more on skills with
+                    lower progress.
+
+                    Practice regularly and build
+                    real-world projects to improve
+                    your career readiness.
+
+                </p>
+
+
             </div>
 
-             <!-- =========================
-     PROGRESS SUMMARY
-========================== -->
 
-<div class="card progress-summary">
-
-    <h2>📊 Your Progress Summary</h2>
-
-    <div class="summary-grid">
-
-        <div class="summary-item">
-            <div class="summary-icon">🎯</div>
-            <h3>Career Goal</h3>
-            <p>{{ career }}</p>
         </div>
 
-        <div class="summary-item">
-            <div class="summary-icon">⭐</div>
-            <h3>Match Score</h3>
-            <p>{{ score }}%</p>
+
+        <!-- =========================
+             PROGRESS SUMMARY
+        ========================== -->
+
+        <div class="card progress-summary">
+
+
+            <h2>
+
+                📊 Your Progress Summary
+
+            </h2>
+
+
+            <div class="summary-grid">
+
+
+                <!-- Career -->
+
+                <div class="summary-item">
+
+
+                    <div class="summary-icon">
+
+                        🎯
+
+                    </div>
+
+
+                    <h3>
+
+                        Career Goal
+
+                    </h3>
+
+
+                    <p>
+
+                        {{ career }}
+
+                    </p>
+
+
+                </div>
+
+
+                <!-- Score -->
+
+                <div class="summary-item">
+
+
+                    <div class="summary-icon">
+
+                        ⭐
+
+                    </div>
+
+
+                    <h3>
+
+                        Match Score
+
+                    </h3>
+
+
+                    <p>
+
+                        {{ score }}%
+
+                    </p>
+
+
+                </div>
+
+
+                <!-- Skills -->
+
+                <div class="summary-item">
+
+
+                    <div class="summary-icon">
+
+                        📚
+
+                    </div>
+
+
+                    <h3>
+
+                        Total Skills
+
+                    </h3>
+
+
+                    <p>
+
+                        {{ progress|length }}
+
+                    </p>
+
+
+                </div>
+
+
+                <!-- Learning -->
+
+                <div class="summary-item">
+
+
+                    <div class="summary-icon">
+
+                        🚀
+
+                    </div>
+
+
+                    <h3>
+
+                        Keep Learning
+
+                    </h3>
+
+
+                    <p>
+
+                        Build Projects
+
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
         </div>
 
-        <div class="summary-item">
-            <div class="summary-icon">📚</div>
-            <h3>Total Skills</h3>
-            <p>{{ progress|length }}</p>
+
+        <!-- =========================
+             CAREER READINESS
+        ========================== -->
+
+        <div class="card summary-box">
+
+
+            <h2>
+
+                🌟 Career Readiness
+
+            </h2>
+
+
+            <p>
+
+                Your recommended career is
+
+                <strong>
+                    {{ career }}
+                </strong>
+
+                with a match score of
+
+                <strong>
+                    {{ score }}%
+                </strong>.
+
+                Follow your personalized roadmap,
+                improve your skill gaps,
+                build practical projects and keep
+                your resume updated.
+
+            </p>
+
+
         </div>
 
-        <div class="summary-item">
-            <div class="summary-icon">🚀</div>
-            <h3>Keep Learning</h3>
-            <p>Build Projects</p>
-        </div>
 
     </div>
+
 
 </div>
 
 
-            <!-- =========================
-                 CAREER READINESS
-            ========================== -->
+<!-- =========================
+     PROGRESS BAR JAVASCRIPT
+========================== -->
 
-            <div class="card summary-box">
-
-                <h2>
-                    🌟 Career Readiness
-                </h2>
-
-                <p>
-                    Your recommended career is
-                    <strong>{{ career }}</strong>
-                    with a match score of
-                    <strong>{{ score }}%</strong>.
-                    Follow your personalized roadmap, improve your skill gaps,
-                    build practical projects and keep your resume updated.
-                </p>
-
-            </div>
+<script>
 
 
-        </div>
+    const progressBars =
+        document.querySelectorAll(".progress");
 
-    </div>
+
+    progressBars.forEach(function(bar) {
 
 
-    <!-- =========================
-         PROGRESS BAR JAVASCRIPT
-    ========================== -->
+        const value =
+            Number(bar.dataset.progress);
 
-    <script>
 
-        const progressBars =
-            document.querySelectorAll(".progress");
+        if (value >= 0 && value <= 100) {
 
-        progressBars.forEach(function(bar) {
 
-            const value =
-                Number(bar.dataset.progress);
+            bar.style.width =
+                value + "%";
 
-            if (value >= 0 && value <= 100) {
 
-                bar.style.width =
-                    value + "%";
+        }
 
-            }
 
-        });
+    });
 
-    </script>
+
+</script>
 
 
 </body>

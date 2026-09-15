@@ -1,0 +1,2376 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CareerPath AI</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#eef2ff,#f8fafc);
+    color:#1e293b;
+}
+
+.header{
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    color:white;
+    padding:18px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 4px 15px rgba(0,0,0,.15);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-icon{
+    width:45px;
+    height:45px;
+    border-radius:12px;
+    background:rgba(255,255,255,.2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+}
+
+.logo h1{
+    font-size:22px;
+}
+
+.logo p{
+    font-size:12px;
+    opacity:.85;
+    margin-top:3px;
+}
+
+.back-btn{
+    text-decoration:none;
+    color:white;
+    background:rgba(255,255,255,.15);
+    padding:10px 17px;
+    border-radius:10px;
+}
+
+.container{
+    max-width:1100px;
+    margin:30px auto;
+    padding:0 20px;
+}
+
+.welcome{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.welcome h2{
+    font-size:30px;
+    color:#312e81;
+    margin-bottom:8px;
+}
+
+.welcome p{
+    color:#64748b;
+}
+
+.profile-card,
+.chat-container,
+.interview-card{
+    background:white;
+    border-radius:22px;
+    box-shadow:0 8px 30px rgba(15,23,42,.1);
+}
+
+.profile-card{
+    padding:25px;
+    margin-bottom:25px;
+}
+
+.profile-title{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:20px;
+    color:#312e81;
+}
+
+.profile-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.info-box{
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    padding:18px;
+    border-radius:15px;
+}
+
+.info-box span{
+    display:block;
+    color:#64748b;
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+.info-box strong{
+    font-size:17px;
+}
+
+.skills-section{
+    margin-top:22px;
+}
+
+.skills-section h3{
+    margin-bottom:12px;
+}
+
+.skills{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.skill{
+    background:#ede9fe;
+    color:#5b21b6;
+    padding:8px 14px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+/* CHAT */
+
+.chat-container{
+    overflow:hidden;
+}
+
+.chat-header{
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    color:white;
+    padding:20px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.bot-icon{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:white;
+    color:#4f46e5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+}
+
+.chat-header h3{
+    font-size:18px;
+}
+
+.chat-header p{
+    font-size:12px;
+    opacity:.85;
+}
+
+.messages{
+    height:400px;
+    padding:20px;
+    overflow-y:auto;
+    background:#f8fafc;
+}
+
+.message{
+    display:flex;
+    margin-bottom:15px;
+}
+
+.message.bot{
+    justify-content:flex-start;
+}
+
+.message.user{
+    justify-content:flex-end;
+}
+
+.bubble{
+    max-width:75%;
+    padding:13px 16px;
+    border-radius:16px;
+    line-height:1.5;
+    font-size:14px;
+    white-space:pre-line;
+}
+
+.bot .bubble{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-bottom-left-radius:4px;
+}
+
+.user .bubble{
+    background:#4f46e5;
+    color:white;
+    border-bottom-right-radius:4px;
+}
+
+.quick-section{
+    padding:15px 20px 5px;
+}
+
+.quick-section p{
+    color:#64748b;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+.quick-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.quick-btn{
+    border:1px solid #c7d2fe;
+    background:#eef2ff;
+    color:#4338ca;
+    padding:8px 12px;
+    border-radius:20px;
+    cursor:pointer;
+    font-size:12px;
+}
+
+.quick-btn:hover{
+    background:#4f46e5;
+    color:white;
+}
+
+.input-area{
+    padding:15px 20px 20px;
+    background:white;
+    display:flex;
+    gap:10px;
+    border-top:1px solid #e2e8f0;
+}
+
+.input-area input{
+    flex:1;
+    padding:13px 16px;
+    border:1px solid #cbd5e1;
+    border-radius:12px;
+    outline:none;
+}
+
+.send-btn{
+    border:none;
+    background:#4f46e5;
+    color:white;
+    padding:0 22px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* INTERVIEW */
+
+.interview-card{
+    display:none;
+    margin-top:25px;
+    padding:25px;
+}
+
+.interview-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.interview-header h2{
+    color:#312e81;
+    margin-bottom:5px;
+}
+
+.interview-header p{
+    color:#64748b;
+    font-size:14px;
+}
+
+.close-interview{
+    border:none;
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:9px 13px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* LANGUAGE */
+
+.language-box{
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.language-box label{
+    display:block;
+    font-weight:bold;
+    color:#312e81;
+    margin-bottom:10px;
+}
+
+.language-box select{
+    width:100%;
+    padding:12px;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    font-size:15px;
+    background:white;
+}
+
+.start-real-btn{
+    width:100%;
+    margin-top:12px;
+    border:none;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    color:white;
+    padding:13px;
+    border-radius:11px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:bold;
+}
+
+/* INTERVIEW QUESTION */
+
+.interview-progress{
+    background:#e2e8f0;
+    height:9px;
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.interview-progress-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#4f46e5,#7c3aed);
+    transition:.4s;
+}
+
+.question-number{
+    color:#64748b;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+.question-box{
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:15px;
+}
+
+.question-box h3{
+    line-height:1.5;
+}
+
+.answer-input{
+    width:100%;
+    min-height:140px;
+    resize:vertical;
+    padding:15px;
+    border:1px solid #cbd5e1;
+    border-radius:14px;
+    outline:none;
+    font-size:15px;
+    line-height:1.6;
+    margin-bottom:12px;
+}
+
+.answer-input:focus{
+    border-color:#6366f1;
+    box-shadow:0 0 0 3px rgba(99,102,241,.1);
+}
+
+.interview-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.interview-btn{
+    border:none;
+    padding:11px 17px;
+    border-radius:11px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.submit-btn{
+    background:#4f46e5;
+    color:white;
+}
+
+.next-btn{
+    background:#0f766e;
+    color:white;
+}
+
+.feedback-box{
+    display:none;
+    background:#ecfdf5;
+    border:1px solid #a7f3d0;
+    color:#065f46;
+    border-radius:15px;
+    padding:18px;
+    margin-top:15px;
+    line-height:1.6;
+}
+
+.result-box{
+    display:none;
+    text-align:center;
+    background:#eef2ff;
+    border-radius:16px;
+    padding:25px;
+}
+
+.result-box h2{
+    color:#312e81;
+}
+
+.result-score{
+    font-size:42px;
+    font-weight:bold;
+    color:#4f46e5;
+    margin:15px 0;
+}
+
+.performance{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.restart-btn{
+    background:#0f766e;
+    color:white;
+}
+
+.footer{
+    text-align:center;
+    padding:25px;
+    color:#94a3b8;
+    font-size:12px;
+}
+
+@media(max-width:800px){
+    .profile-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:500px){
+    .profile-grid{
+        grid-template-columns:1fr;
+    }
+
+    .header{
+        flex-direction:column;
+        gap:12px;
+    }
+
+    .container{
+        padding:0 12px;
+    }
+
+    .bubble{
+        max-width:90%;
+    }
+
+    .interview-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- DATA -->
+
+<div
+    id="careerData"
+    data-career="{{ career }}"
+    data-score="{{ score }}"
+    data-average="{{ average_progress }}"
+    data-weakest="{{ weakest_skill or '' }}"
+    data-weakest-value="{{ weakest_value or 0 }}"
+    data-skills='{{ skills | tojson }}'
+    data-progress='{{ progress | tojson }}'
+    data-roadmap='{{ roadmap | tojson }}'
+    style="display:none;">
+</div>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <div class="logo">
+
+        <div class="logo-icon">🤖</div>
+
+        <div>
+            <h1>CareerPath AI</h1>
+            <p>Smart Career Assistant</p>
+        </div>
+
+    </div>
+
+    <a href="/dashboard" class="back-btn">
+        ← Dashboard
+    </a>
+
+</div>
+
+
+<div class="container">
+
+    <div class="welcome">
+
+        <h2>Ask Career AI 🤖</h2>
+
+        <p>
+            Get personalized guidance based on your career assessment.
+        </p>
+
+    </div>
+
+
+    <!-- PROFILE -->
+
+    <div class="profile-card">
+
+        <div class="profile-title">
+            🎯 Your Career Profile
+        </div>
+
+        <div class="profile-grid">
+
+            <div class="info-box">
+                <span>Recommended Career</span>
+                <strong>{{ career }}</strong>
+            </div>
+
+            <div class="info-box">
+                <span>Match Score</span>
+                <strong>{{ score }}%</strong>
+            </div>
+
+            <div class="info-box">
+                <span>Average Skill Progress</span>
+                <strong>{{ average_progress }}%</strong>
+            </div>
+
+            <div class="info-box">
+
+                <span>Skill To Focus First</span>
+
+                <strong>
+                    {% if weakest_skill %}
+                        {{ weakest_skill }}
+                    {% else %}
+                        Complete Assessment
+                    {% endif %}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        {% if skills %}
+
+        <div class="skills-section">
+
+            <h3>💡 Your Recommended Skills</h3>
+
+            <div class="skills">
+
+                {% for skill in skills %}
+
+                    <span class="skill">
+                        {{ skill }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- CHAT -->
+
+    <div class="chat-container">
+
+        <div class="chat-header">
+
+            <div class="bot-icon">🤖</div>
+
+            <div>
+                <h3>CareerPath AI Assistant</h3>
+                <p>Personalized career guidance for you</p>
+            </div>
+
+        </div>
+
+
+        <div class="messages" id="messages">
+
+            <div class="message bot">
+
+                <div class="bubble">
+
+                    👋 Hi! I'm your CareerPath AI assistant.
+
+                    {% if career != "Not Assessed Yet" %}
+
+                    Your recommended career is:
+
+                    🎯 {{ career }}
+
+                    Your match score is {{ score }}%.
+
+                    You can ask me about your career, skills,
+                    progress, roadmap or interview preparation.
+
+                    {% else %}
+
+                    Please complete your Career Assessment first.
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="quick-section">
+
+            <p>Quick Questions</p>
+
+            <div class="quick-buttons">
+
+                <button class="quick-btn"
+                    onclick="askQuestion('What is my career?')">
+                    🎯 My Career
+                </button>
+
+                <button class="quick-btn"
+                    onclick="askQuestion('What is my score?')">
+                    📊 My Score
+                </button>
+
+                <button class="quick-btn"
+                    onclick="askQuestion('Show my progress')">
+                    📈 My Progress
+                </button>
+
+                <button class="quick-btn"
+                    onclick="askQuestion('What should I learn first?')">
+                    📚 Learn First
+                </button>
+
+                <button class="quick-btn"
+                    onclick="askQuestion('Show my roadmap')">
+                    🗺️ My Roadmap
+                </button>
+
+                <button class="quick-btn"
+                    onclick="askQuestion('What are my skills?')">
+                    💡 My Skills
+                </button>
+
+                <button class="quick-btn"
+                    onclick="startInterview()">
+                    🎤 Interview Practice
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="input-area">
+
+            <input
+                type="text"
+                id="userInput"
+                placeholder="Ask something about your career..."
+            >
+
+            <button
+                class="send-btn"
+                onclick="sendMessage()">
+                Send
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- REAL INTERVIEW -->
+
+    <div class="interview-card" id="interviewCard">
+
+        <div class="interview-header">
+
+            <div>
+
+                <h2>🎤 Real Interview Practice</h2>
+
+                <p>
+                    Career:
+                    <strong id="interviewCareer"></strong>
+                </p>
+
+            </div>
+
+            <button
+                class="close-interview"
+                onclick="closeInterview()">
+                ✕ Close
+            </button>
+
+        </div>
+
+
+        <!-- LANGUAGE SELECT -->
+
+        <div id="languageSelection">
+
+            <div class="language-box">
+
+                <label for="languageSelect">
+                    🌐 Select Interview Language
+                </label>
+
+                <select id="languageSelect">
+
+                    <option value="English">
+                        🇬🇧 English
+                    </option>
+
+                    <option value="Marathi">
+                        🇮🇳 मराठी
+                    </option>
+
+                    <option value="Hindi">
+                        🇮🇳 हिन्दी
+                    </option>
+
+                    <option value="Mix">
+                        🇮🇳 Marathi + English
+                    </option>
+
+                </select>
+
+                <button
+                    class="start-real-btn"
+                    onclick="beginInterview()">
+
+                    🚀 Start Real Interview
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION AREA -->
+
+        <div id="questionArea" style="display:none;">
+
+            <div class="interview-progress">
+
+                <div
+                    class="interview-progress-bar"
+                    id="interviewProgressBar">
+                </div>
+
+            </div>
+
+
+            <div
+                class="question-number"
+                id="questionNumber">
+            </div>
+
+
+            <div class="question-box">
+
+                <h3 id="questionText"></h3>
+
+            </div>
+
+
+            <textarea
+                id="answerInput"
+                class="answer-input"
+                placeholder="Type your answer here...">
+            </textarea>
+
+
+            <div class="interview-actions">
+
+                <button
+                    class="interview-btn submit-btn"
+                    id="submitAnswerBtn"
+                    onclick="submitAnswer()">
+
+                    ✅ Submit Answer
+
+                </button>
+
+                <button
+                    class="interview-btn next-btn"
+                    id="nextQuestionBtn"
+                    onclick="nextRealQuestion()"
+                    style="display:none;">
+
+                    ➡️ Next Question
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="feedback-box"
+                id="feedbackBox">
+            </div>
+
+        </div>
+
+
+        <!-- RESULT -->
+
+        <div
+            class="result-box"
+            id="resultBox">
+
+            <h2>🏆 Interview Complete!</h2>
+
+            <p>
+                You completed your real interview practice.
+            </p>
+
+            <div
+                class="result-score"
+                id="resultScore">
+                0/0
+            </div>
+
+            <div
+                class="performance"
+                id="performanceText">
+            </div>
+
+            <p id="finalSuggestion">
+                Keep practicing to improve your interview confidence.
+            </p>
+
+            <br>
+
+            <button
+                class="interview-btn restart-btn"
+                onclick="startInterview()">
+
+                🔄 Restart Interview
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+    CareerPath AI • Smart Student Career Navigator
+</div>
+
+
+<script>
+
+/* =========================
+   CAREER DATA
+========================= */
+
+const careerData =
+    document.getElementById("careerData");
+
+const studentCareer =
+    careerData.dataset.career;
+
+const studentScore =
+    Number(careerData.dataset.score);
+
+const averageProgress =
+    Number(careerData.dataset.average);
+
+const weakestSkill =
+    careerData.dataset.weakest;
+
+const weakestValue =
+    Number(careerData.dataset.weakestValue);
+
+let studentSkills = [];
+let studentProgress = [];
+let studentRoadmap = [];
+
+try {
+    studentSkills =
+        JSON.parse(careerData.dataset.skills || "[]");
+} catch(e) {
+    studentSkills = [];
+}
+
+try {
+    studentProgress =
+        JSON.parse(careerData.dataset.progress || "[]");
+} catch(e) {
+    studentProgress = [];
+}
+
+try {
+    studentRoadmap =
+        JSON.parse(careerData.dataset.roadmap || "[]");
+} catch(e) {
+    studentRoadmap = [];
+}
+
+
+/* =========================
+   CHAT
+========================= */
+
+function addUserMessage(text){
+
+    const messages =
+        document.getElementById("messages");
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message user";
+
+    message.innerHTML =
+        `<div class="bubble">
+            ${escapeHTML(text)}
+        </div>`;
+
+    messages.appendChild(message);
+
+    scrollMessages();
+}
+
+
+function addBotMessage(text){
+
+    const messages =
+        document.getElementById("messages");
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message bot";
+
+    message.innerHTML =
+        `<div class="bubble">
+            ${text}
+        </div>`;
+
+    messages.appendChild(message);
+
+    scrollMessages();
+}
+
+
+function askQuestion(question){
+
+    document.getElementById("userInput").value =
+        question;
+
+    sendMessage();
+}
+
+
+function sendMessage(){
+
+    const input =
+        document.getElementById("userInput");
+
+    const question =
+        input.value.trim();
+
+    if(question === ""){
+        return;
+    }
+
+    addUserMessage(question);
+
+    input.value = "";
+
+    setTimeout(function(){
+
+        const answer =
+            getAIResponse(question);
+
+        addBotMessage(answer);
+
+    },300);
+}
+
+
+document
+    .getElementById("userInput")
+    .addEventListener("keydown",function(event){
+
+        if(event.key === "Enter"){
+            sendMessage();
+        }
+
+    });
+
+
+function getAIResponse(question){
+
+    const q =
+        question.toLowerCase();
+
+
+    if(
+        q.includes("interview") ||
+        q.includes("interview preparation")
+    ){
+
+        startInterview();
+
+        return `
+            🎤 <strong>Real Interview Practice</strong>
+            <br><br>
+            Select your preferred language and start the interview.
+        `;
+    }
+
+
+    if(
+        q.includes("my career") ||
+        q.includes("which career")
+    ){
+
+        return `
+            🎯 <strong>Your Recommended Career</strong>
+            <br><br>
+            ${escapeHTML(studentCareer)}
+            <br><br>
+            Match Score:
+            <strong>${studentScore}%</strong>
+        `;
+    }
+
+
+    if(
+        q.includes("score") ||
+        q.includes("match")
+    ){
+
+        return `
+            📊 <strong>Your Match Score</strong>
+            <br><br>
+            Career:
+            <strong>${escapeHTML(studentCareer)}</strong>
+            <br><br>
+            Score:
+            <strong>${studentScore}%</strong>
+        `;
+    }
+
+
+    if(
+        q.includes("progress") ||
+        q.includes("how much")
+    ){
+
+        if(!studentProgress.length){
+
+            return `
+                📈 Skill progress is not available yet.
+            `;
+        }
+
+        let result = `
+            📈 <strong>Your Skill Progress</strong>
+            <br><br>
+            Overall Progress:
+            <strong>${averageProgress}%</strong>
+            <br><br>
+        `;
+
+        studentProgress.forEach(function(item){
+
+            result += `
+                💡 ${escapeHTML(item[0])} :
+                <strong>${item[1]}%</strong>
+                <br>
+            `;
+
+        });
+
+        return result;
+    }
+
+
+    if(
+        q.includes("learn first") ||
+        q.includes("what should i learn")
+    ){
+
+        if(weakestSkill){
+
+            return `
+                📚 <strong>Learn This First</strong>
+                <br><br>
+                Skill:
+                <strong>${escapeHTML(weakestSkill)}</strong>
+                <br><br>
+                Current Progress:
+                <strong>${weakestValue}%</strong>
+                <br><br>
+                🎯 Focus on this skill first and build a small project.
+            `;
+        }
+    }
+
+
+    if(
+        q.includes("my skills") ||
+        q.includes("skills")
+    ){
+
+        let result = `
+            💡 <strong>Your Recommended Skills</strong>
+            <br><br>
+        `;
+
+        studentSkills.forEach(function(skill){
+
+            result += `
+                🔹 ${escapeHTML(skill)}
+                <br>
+            `;
+
+        });
+
+        return result;
+    }
+
+
+    if(
+        q.includes("roadmap") ||
+        q.includes("learning path")
+    ){
+
+        let result = `
+            🗺️ <strong>Your Career Roadmap</strong>
+            <br><br>
+        `;
+
+        studentRoadmap.forEach(function(step,index){
+
+            result += `
+                <strong>${index+1}.</strong>
+                ${escapeHTML(step)}
+                <br>
+            `;
+
+        });
+
+        return result;
+    }
+
+
+    if(q.includes("python")){
+
+        return `
+            🐍 <strong>Python</strong>
+            <br><br>
+            Python is a beginner-friendly programming language.
+            <br><br>
+            Learn:
+            <br>
+            1. Variables
+            <br>
+            2. Conditions
+            <br>
+            3. Loops
+            <br>
+            4. Functions
+            <br>
+            5. Lists
+            <br>
+            6. Projects
+        `;
+    }
+
+
+    return `
+        🤖 <strong>CareerPath AI</strong>
+        <br><br>
+        I can help you with:
+        <br><br>
+        🎯 Career
+        <br>
+        📊 Score
+        <br>
+        📈 Progress
+        <br>
+        📚 Skills
+        <br>
+        🗺️ Roadmap
+        <br>
+        🎤 Interview Preparation
+    `;
+}
+
+
+/* =========================
+   INTERVIEW QUESTIONS
+========================= */
+
+const interviewQuestions = {
+
+    "Software Developer": {
+
+        "English":[
+
+            {
+                q:"Tell me about yourself.",
+                keywords:["education","skill","project","goal"]
+            },
+
+            {
+                q:"What is Python and why is it used?",
+                keywords:["programming","language","simple","development"]
+            },
+
+            {
+                q:"What is HTML?",
+                keywords:["markup","web","structure","page"]
+            },
+
+            {
+                q:"What is CSS?",
+                keywords:["style","design","web","layout"]
+            },
+
+            {
+                q:"What is Git?",
+                keywords:["version","control","code","changes"]
+            },
+
+            {
+                q:"Explain one project you have worked on.",
+                keywords:["project","technology","feature","role"]
+            }
+
+        ],
+
+        "Marathi":[
+
+            {
+                q:"तुमच्याबद्दल थोडक्यात सांगा.",
+                keywords:["शिक्षण","स्किल","प्रोजेक्ट","ध्येय"]
+            },
+
+            {
+                q:"Python म्हणजे काय आणि त्याचा वापर का केला जातो?",
+                keywords:["programming","language","development","भाषा"]
+            },
+
+            {
+                q:"HTML म्हणजे काय?",
+                keywords:["web","structure","page","markup"]
+            },
+
+            {
+                q:"CSS म्हणजे काय?",
+                keywords:["design","style","web","layout"]
+            },
+
+            {
+                q:"Git म्हणजे काय?",
+                keywords:["version","control","code","changes"]
+            },
+
+            {
+                q:"तुम्ही केलेल्या एखाद्या project बद्दल सांगा.",
+                keywords:["project","technology","feature","role"]
+            }
+
+        ],
+
+        "Hindi":[
+
+            {
+                q:"अपने बारे में संक्षेप में बताइए।",
+                keywords:["शिक्षा","skill","project","goal"]
+            },
+
+            {
+                q:"Python क्या है और इसका उपयोग क्यों किया जाता है?",
+                keywords:["programming","language","development"]
+            },
+
+            {
+                q:"HTML क्या है?",
+                keywords:["web","structure","page"]
+            },
+
+            {
+                q:"CSS क्या है?",
+                keywords:["design","style","web","layout"]
+            },
+
+            {
+                q:"Git क्या है?",
+                keywords:["version","control","code"]
+            },
+
+            {
+                q:"आपने किए हुए किसी एक project के बारे में बताइए।",
+                keywords:["project","technology","feature"]
+            }
+
+        ],
+
+        "Mix":[
+
+            {
+                q:"तुमच्याबद्दल थोडक्यात tell me.",
+                keywords:["education","skill","project","goal"]
+            },
+
+            {
+                q:"Python काय आहे आणि ते कुठे use केले जाते?",
+                keywords:["programming","language","development"]
+            },
+
+            {
+                q:"HTML काय आहे आणि website मध्ये त्याचा use काय आहे?",
+                keywords:["web","structure","page"]
+            },
+
+            {
+                q:"CSS काय आहे आणि ते website design साठी कसे use होते?",
+                keywords:["design","style","layout"]
+            },
+
+            {
+                q:"Git काय आहे आणि developers ते का use करतात?",
+                keywords:["version","control","code"]
+            },
+
+            {
+                q:"तुम्ही केलेल्या एका project बद्दल explain करा.",
+                keywords:["project","technology","feature","role"]
+            }
+
+        ]
+
+    },
+
+
+    "Data Analyst": {
+
+        "English":[
+
+            {
+                q:"Tell me about yourself.",
+                keywords:["education","analysis","skills","goal"]
+            },
+
+            {
+                q:"What does a Data Analyst do?",
+                keywords:["data","analysis","insights","decision"]
+            },
+
+            {
+                q:"What is SQL?",
+                keywords:["database","query","data"]
+            },
+
+            {
+                q:"Why is Excel useful for data analysis?",
+                keywords:["formula","pivot","data","chart"]
+            },
+
+            {
+                q:"What is data visualization?",
+                keywords:["charts","graphs","data","visual"]
+            },
+
+            {
+                q:"Explain a data analysis project.",
+                keywords:["data","project","analysis","result"]
+            }
+
+        ],
+
+        "Marathi":[
+
+            {
+                q:"तुमच्याबद्दल थोडक्यात सांगा.",
+                keywords:["शिक्षण","skills","analysis","ध्येय"]
+            },
+
+            {
+                q:"Data Analyst काय काम करतो?",
+                keywords:["data","analysis","decision"]
+            },
+
+            {
+                q:"SQL म्हणजे काय?",
+                keywords:["database","query","data"]
+            },
+
+            {
+                q:"Data Analysis साठी Excel का उपयोगी आहे?",
+                keywords:["formula","pivot","data","chart"]
+            },
+
+            {
+                q:"Data Visualization म्हणजे काय?",
+                keywords:["chart","graph","data"]
+            },
+
+            {
+                q:"तुमच्या Data Analysis project बद्दल सांगा.",
+                keywords:["project","data","analysis","result"]
+            }
+
+        ],
+
+        "Hindi":[
+
+            {
+                q:"अपने बारे में संक्षेप में बताइए।",
+                keywords:["शिक्षा","skills","analysis","goal"]
+            },
+
+            {
+                q:"Data Analyst क्या काम करता है?",
+                keywords:["data","analysis","decision"]
+            },
+
+            {
+                q:"SQL क्या है?",
+                keywords:["database","query","data"]
+            },
+
+            {
+                q:"Data Analysis के लिए Excel क्यों उपयोगी है?",
+                keywords:["formula","pivot","data","chart"]
+            },
+
+            {
+                q:"Data Visualization क्या है?",
+                keywords:["chart","graph","data"]
+            },
+
+            {
+                q:"अपने Data Analysis project के बारे में बताइए।",
+                keywords:["project","data","analysis"]
+            }
+
+        ],
+
+        "Mix":[
+
+            {
+                q:"तुमच्याबद्दल थोडक्यात tell me.",
+                keywords:["education","skills","analysis"]
+            },
+
+            {
+                q:"Data Analyst काय काम करतो?",
+                keywords:["data","analysis","decision"]
+            },
+
+            {
+                q:"SQL काय आहे आणि ते कुठे use होते?",
+                keywords:["database","query","data"]
+            },
+
+            {
+                q:"Excel data analysis साठी useful का आहे?",
+                keywords:["formula","pivot","data"]
+            },
+
+            {
+                q:"Data Visualization म्हणजे काय?",
+                keywords:["chart","graph","data"]
+            },
+
+            {
+                q:"तुमच्या data project बद्दल explain करा.",
+                keywords:["project","data","analysis","result"]
+            }
+
+        ]
+
+    },
+
+
+    "UI/UX Designer": {
+
+        "English":[
+
+            {
+                q:"Tell me about yourself.",
+                keywords:["education","design","skills","goal"]
+            },
+
+            {
+                q:"What is UI design?",
+                keywords:["interface","visual","layout","design"]
+            },
+
+            {
+                q:"What is UX design?",
+                keywords:["user","experience","product"]
+            },
+
+            {
+                q:"What is Figma?",
+                keywords:["design","prototype","interface"]
+            },
+
+            {
+                q:"What is a wireframe?",
+                keywords:["layout","structure","design"]
+            },
+
+            {
+                q:"Explain one design project.",
+                keywords:["project","design","user","solution"]
+            }
+
+        ],
+
+        "Marathi":[
+
+            {
+                q:"तुमच्याबद्दल थोडक्यात सांगा.",
+                keywords:["शिक्षण","design","skills","ध्येय"]
+            },
+
+            {
+                q:"UI Design म्हणजे काय?",
+                keywords:["interface","visual","design"]
+            },
+
+            {
+                q:"UX Design म्हणजे काय?",
+                keywords:["user","experience","product"]
+            },
+
+            {
+                q:"Figma म्हणजे काय?",
+                keywords:["design","prototype","interface"]
+            },
+
+            {
+                q:"Wireframe म्हणजे काय?",
+                keywords:["layout","structure","design"]
+            },
+
+            {
+                q:"तुमच्या एका design project बद्दल सांगा.",
+                keywords:["project","design","user","solution"]
+            }
+
+        ],
+
+        "Hindi":[
+
+            {
+                q:"अपने बारे में संक्षेप में बताइए।",
+                keywords:["शिक्षा","design","skills","goal"]
+            },
+
+            {
+                q:"UI Design क्या है?",
+                keywords:["interface","visual","design"]
+            },
+
+            {
+                q:"UX Design क्या है?",
+                keywords:["user","experience","product"]
+            },
+
+            {
+                q:"Figma क्या है?",
+                keywords:["design","prototype","interface"]
+            },
+
+            {
+                q:"Wireframe क्या है?",
+                keywords:["layout","structure","design"]
+            },
+
+            {
+                q:"अपने design project के बारे में बताइए।",
+                keywords:["project","design","solution"]
+            }
+
+        ],
+
+        "Mix":[
+
+            {
+                q:"तुमच्याबद्दल थोडक्यात tell me.",
+                keywords:["education","design","skills"]
+            },
+
+            {
+                q:"UI Design काय आहे?",
+                keywords:["interface","visual","design"]
+            },
+
+            {
+                q:"UX Design काय आहे?",
+                keywords:["user","experience","product"]
+            },
+
+            {
+                q:"Figma काय आहे?",
+                keywords:["design","prototype"]
+            },
+
+            {
+                q:"Wireframe म्हणजे काय?",
+                keywords:["layout","structure"]
+            },
+
+            {
+                q:"तुमच्या एका design project बद्दल explain करा.",
+                keywords:["project","design","solution"]
+            }
+
+        ]
+
+    },
+
+
+    "Business Analyst": {
+
+        "English":[
+
+            {
+                q:"Tell me about yourself.",
+                keywords:["education","communication","analysis","goal"]
+            },
+
+            {
+                q:"What does a Business Analyst do?",
+                keywords:["business","requirements","solution"]
+            },
+
+            {
+                q:"What is requirement gathering?",
+                keywords:["requirements","stakeholder","needs"]
+            },
+
+            {
+                q:"Why is communication important?",
+                keywords:["communication","stakeholder","understanding"]
+            },
+
+            {
+                q:"Why is Excel useful for a Business Analyst?",
+                keywords:["data","report","calculation","analysis"]
+            },
+
+            {
+                q:"Explain one project you worked on.",
+                keywords:["project","problem","solution","role"]
+            }
+
+        ],
+
+        "Marathi":[
+
+            {
+                q:"तुमच्याबद्दल थोडक्यात सांगा.",
+                keywords:["शिक्षण","communication","analysis","ध्येय"]
+            },
+
+            {
+                q:"Business Analyst काय काम करतो?",
+                keywords:["business","requirements","solution"]
+            },
+
+            {
+                q:"Requirement Gathering म्हणजे काय?",
+                keywords:["requirements","stakeholder","needs"]
+            },
+
+            {
+                q:"Business Analyst साठी communication का महत्त्वाचे आहे?",
+                keywords:["communication","stakeholder","understanding"]
+            },
+
+            {
+                q:"Business Analyst साठी Excel का उपयोगी आहे?",
+                keywords:["data","report","analysis"]
+            },
+
+            {
+                q:"तुमच्या एका project बद्दल सांगा.",
+                keywords:["project","problem","solution","role"]
+            }
+
+        ],
+
+        "Hindi":[
+
+            {
+                q:"अपने बारे में संक्षेप में बताइए।",
+                keywords:["शिक्षा","communication","analysis"]
+            },
+
+            {
+                q:"Business Analyst क्या काम करता है?",
+                keywords:["business","requirements","solution"]
+            },
+
+            {
+                q:"Requirement Gathering क्या है?",
+                keywords:["requirements","stakeholder","needs"]
+            },
+
+            {
+                q:"Business Analyst के लिए communication क्यों जरूरी है?",
+                keywords:["communication","stakeholder"]
+            },
+
+            {
+                q:"Business Analyst के लिए Excel क्यों उपयोगी है?",
+                keywords:["data","report","analysis"]
+            },
+
+            {
+                q:"अपने project के बारे में बताइए।",
+                keywords:["project","problem","solution"]
+            }
+
+        ],
+
+        "Mix":[
+
+            {
+                q:"तुमच्याबद्दल थोडक्यात tell me.",
+                keywords:["education","communication","analysis"]
+            },
+
+            {
+                q:"Business Analyst काय काम करतो?",
+                keywords:["business","requirements","solution"]
+            },
+
+            {
+                q:"Requirement Gathering म्हणजे काय?",
+                keywords:["requirements","stakeholder","needs"]
+            },
+
+            {
+                q:"Business Analyst साठी communication का important आहे?",
+                keywords:["communication","stakeholder"]
+            },
+
+            {
+                q:"Excel Business Analyst साठी useful का आहे?",
+                keywords:["data","report","analysis"]
+            },
+
+            {
+                q:"तुमच्या project बद्दल explain करा.",
+                keywords:["project","problem","solution"]
+            }
+
+        ]
+
+    }
+
+};
+
+
+/* =========================
+   INTERVIEW VARIABLES
+========================= */
+
+let currentQuestions = [];
+let currentQuestionIndex = 0;
+let interviewScore = 0;
+let selectedLanguage = "English";
+let answerSubmitted = false;
+
+
+/* =========================
+   OPEN INTERVIEW
+========================= */
+
+function startInterview(){
+
+    const card =
+        document.getElementById("interviewCard");
+
+    card.style.display = "block";
+
+    document.getElementById("interviewCareer")
+        .textContent = studentCareer;
+
+    document.getElementById("languageSelection")
+        .style.display = "block";
+
+    document.getElementById("questionArea")
+        .style.display = "none";
+
+    document.getElementById("resultBox")
+        .style.display = "none";
+
+    setTimeout(function(){
+
+        card.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+    },100);
+}
+
+
+/* =========================
+   BEGIN INTERVIEW
+========================= */
+
+function beginInterview(){
+
+    selectedLanguage =
+        document.getElementById("languageSelect").value;
+
+    currentQuestions =
+        interviewQuestions[studentCareer] &&
+        interviewQuestions[studentCareer][selectedLanguage];
+
+    if(!currentQuestions){
+
+        currentQuestions =
+            interviewQuestions["Software Developer"]["English"];
+
+    }
+
+    currentQuestionIndex = 0;
+    interviewScore = 0;
+    answerSubmitted = false;
+
+    document.getElementById("languageSelection")
+        .style.display = "none";
+
+    document.getElementById("questionArea")
+        .style.display = "block";
+
+    document.getElementById("resultBox")
+        .style.display = "none";
+
+    showRealQuestion();
+}
+
+
+/* =========================
+   SHOW QUESTION
+========================= */
+
+function showRealQuestion(){
+
+    const question =
+        currentQuestions[currentQuestionIndex];
+
+    document.getElementById("questionNumber")
+        .textContent =
+        getQuestionLabel() +
+        " " +
+        (currentQuestionIndex + 1) +
+        " / " +
+        currentQuestions.length;
+
+    document.getElementById("questionText")
+        .textContent =
+        question.q;
+
+    document.getElementById("answerInput")
+        .value = "";
+
+    document.getElementById("answerInput")
+        .disabled = false;
+
+    document.getElementById("submitAnswerBtn")
+        .style.display = "inline-block";
+
+    document.getElementById("nextQuestionBtn")
+        .style.display = "none";
+
+    document.getElementById("feedbackBox")
+        .style.display = "none";
+
+    document.getElementById("feedbackBox")
+        .innerHTML = "";
+
+    answerSubmitted = false;
+
+    const progress =
+        (currentQuestionIndex /
+        currentQuestions.length) * 100;
+
+    document.getElementById("interviewProgressBar")
+        .style.width =
+        progress + "%";
+}
+
+
+/* =========================
+   SUBMIT ANSWER
+========================= */
+
+function submitAnswer(){
+
+    if(answerSubmitted){
+        return;
+    }
+
+    const answer =
+        document.getElementById("answerInput")
+        .value.trim();
+
+    if(answer === ""){
+
+        alert(getEmptyAnswerMessage());
+
+        return;
+    }
+
+    const question =
+        currentQuestions[currentQuestionIndex];
+
+    const answerLower =
+        answer.toLowerCase();
+
+    let matchedKeywords = 0;
+
+    question.keywords.forEach(function(keyword){
+
+        if(
+            answerLower.includes(
+                keyword.toLowerCase()
+            )
+        ){
+
+            matchedKeywords++;
+
+        }
+
+    });
+
+    let score = 0;
+
+    if(answer.length >= 20){
+        score += 2;
+    }
+
+    if(answer.length >= 50){
+        score += 2;
+    }
+
+    if(answer.length >= 100){
+        score += 2;
+    }
+
+    if(matchedKeywords >= 1){
+        score += 1;
+    }
+
+    if(matchedKeywords >= 2){
+        score += 1;
+    }
+
+    if(matchedKeywords >= 3){
+        score += 2;
+    }
+
+    if(score > 10){
+        score = 10;
+    }
+
+    /* Convert 10-point score into interview points */
+
+    if(score >= 6){
+        interviewScore++;
+    }
+
+    answerSubmitted = true;
+
+    document.getElementById("answerInput")
+        .disabled = true;
+
+    document.getElementById("submitAnswerBtn")
+        .style.display = "none";
+
+    document.getElementById("nextQuestionBtn")
+        .style.display = "inline-block";
+
+    showFeedback(score, matchedKeywords);
+
+}
+
+
+/* =========================
+   FEEDBACK
+========================= */
+
+function showFeedback(score, matchedKeywords){
+
+    const box =
+        document.getElementById("feedbackBox");
+
+    let feedback = "";
+
+    if(selectedLanguage === "Marathi"){
+
+        feedback =
+            "📊 <strong>तुमचा Answer Score: " +
+            score +
+            "/10</strong><br><br>";
+
+        if(score >= 8){
+
+            feedback +=
+                "🌟 खूप छान answer! तुमचा answer clear आणि relevant आहे.";
+
+        }
+        else if(score >= 6){
+
+            feedback +=
+                "👍 Good answer! थोडे अधिक technical details आणि example दिल्यास answer अजून strong होईल.";
+
+        }
+        else{
+
+            feedback +=
+                "💡 Answer improve करण्यासाठी अधिक details, skills आणि real example add करा.";
+
+        }
+
+        feedback +=
+            "<br><br>🎯 Interview Tip: उत्तर confidently आणि short points मध्ये द्या.";
+
+    }
+
+    else if(selectedLanguage === "Hindi"){
+
+        feedback =
+            "📊 <strong>आपका Answer Score: " +
+            score +
+            "/10</strong><br><br>";
+
+        if(score >= 8){
+
+            feedback +=
+                "🌟 बहुत अच्छा answer! आपका जवाब clear और relevant है.";
+
+        }
+        else if(score >= 6){
+
+            feedback +=
+                "👍 अच्छा answer! थोड़ा और technical detail और example जोड़ें.";
+
+        }
+        else{
+
+            feedback +=
+                "💡 Answer को बेहतर बनाने के लिए ज्यादा details और real example दें.";
+
+        }
+
+        feedback +=
+            "<br><br>🎯 Interview Tip: जवाब confidently और short points में दें.";
+
+    }
+
+    else{
+
+        feedback =
+            "📊 <strong>Your Answer Score: " +
+            score +
+            "/10</strong><br><br>";
+
+        if(score >= 8){
+
+            feedback +=
+                "🌟 Excellent answer! Your response is clear and relevant.";
+
+        }
+        else if(score >= 6){
+
+            feedback +=
+                "👍 Good answer! Add a little more technical detail and a real example.";
+
+        }
+        else{
+
+            feedback +=
+                "💡 Improve your answer by adding more details, skills and a real example.";
+
+        }
+
+        feedback +=
+            "<br><br>🎯 Interview Tip: Keep your answer clear, confident and structured.";
+
+    }
+
+    box.innerHTML = feedback;
+
+    box.style.display = "block";
+}
+
+
+/* =========================
+   NEXT
+========================= */
+
+function nextRealQuestion(){
+
+    if(
+        currentQuestionIndex <
+        currentQuestions.length - 1
+    ){
+
+        currentQuestionIndex++;
+
+        showRealQuestion();
+
+        return;
+    }
+
+    finishRealInterview();
+}
+
+
+/* =========================
+   FINISH
+========================= */
+
+function finishRealInterview(){
+
+    document.getElementById("questionArea")
+        .style.display = "none";
+
+    document.getElementById("resultBox")
+        .style.display = "block";
+
+    document.getElementById("interviewProgressBar")
+        .style.width = "100%";
+
+    const total =
+        currentQuestions.length;
+
+    document.getElementById("resultScore")
+        .textContent =
+        interviewScore +
+        "/" +
+        total;
+
+    let performance = "";
+
+    if(
+        interviewScore >= total * 0.8
+    ){
+
+        performance =
+            "🌟 Excellent Interview Performance!";
+
+    }
+    else if(
+        interviewScore >= total * 0.6
+    ){
+
+        performance =
+            "👍 Good Performance! Keep practicing.";
+
+    }
+    else{
+
+        performance =
+            "💪 Keep practicing. You can improve!";
+
+    }
+
+    document.getElementById("performanceText")
+        .textContent =
+        performance;
+
+
+    if(selectedLanguage === "Marathi"){
+
+        document.getElementById("finalSuggestion")
+            .textContent =
+            "तुमच्या technical answers मध्ये examples आणि details वाढवा.";
+
+    }
+    else if(selectedLanguage === "Hindi"){
+
+        document.getElementById("finalSuggestion")
+            .textContent =
+            "अपने technical answers में examples और details बढ़ाएं.";
+
+    }
+    else{
+
+        document.getElementById("finalSuggestion")
+            .textContent =
+            "Add more examples and technical details to make your answers stronger.";
+
+    }
+}
+
+
+/* =========================
+   CLOSE
+========================= */
+
+function closeInterview(){
+
+    document.getElementById("interviewCard")
+        .style.display = "none";
+}
+
+
+/* =========================
+   LABELS
+========================= */
+
+function getQuestionLabel(){
+
+    if(selectedLanguage === "Marathi"){
+        return "प्रश्न";
+    }
+
+    if(selectedLanguage === "Hindi"){
+        return "प्रश्न";
+    }
+
+    return "Question";
+}
+
+
+function getEmptyAnswerMessage(){
+
+    if(selectedLanguage === "Marathi"){
+        return "कृपया आधी तुमचा answer type करा.";
+    }
+
+    if(selectedLanguage === "Hindi"){
+        return "कृपया पहले अपना answer type करें.";
+    }
+
+    return "Please type your answer first.";
+}
+
+
+/* =========================
+   UTILITIES
+========================= */
+
+function escapeHTML(text){
+
+    if(
+        text === null ||
+        text === undefined
+    ){
+
+        return "";
+
+    }
+
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+function scrollMessages(){
+
+    const messages =
+        document.getElementById("messages");
+
+    messages.scrollTop =
+        messages.scrollHeight;
+}
+
+</script>
+
+</body>
+</html>
+```

@@ -668,6 +668,178 @@ def assessment():
     return render_template("assessment.html")
 
 
+
+# ==========================================
+# CAREER AI CHATBOT
+# ==========================================
+
+@app.route("/career-ai")
+def career_ai():
+
+    if "user_email" not in session:
+        return redirect("/login")
+
+    user_email = session["user_email"]
+
+    conn = sqlite3.connect("database/careerpath.db")
+    cursor = conn.cursor()
+
+    # ------------------------------------------
+    # GET LATEST ASSESSMENT
+    # ------------------------------------------
+
+    cursor.execute("""
+        SELECT
+            career,
+            score,
+            skills
+        FROM assessments
+        WHERE user_email = ?
+        ORDER BY id DESC
+        LIMIT 1
+    """, (user_email,))
+
+    assessment = cursor.fetchone()
+
+    # ------------------------------------------
+    # GET STUDENT PROGRESS
+    # ------------------------------------------
+
+    cursor.execute("""
+        SELECT
+            skill,
+            progress
+        FROM progress
+        WHERE user_email = ?
+        ORDER BY skill
+    """, (user_email,))
+
+    progress = cursor.fetchall()
+
+    conn.close()
+
+    # ------------------------------------------
+    # DEFAULT DATA
+    # ------------------------------------------
+
+    career = "Not Assessed Yet"
+    score = 0
+    skills = []
+
+    # ------------------------------------------
+    # ASSESSMENT DATA
+    # ------------------------------------------
+
+    if assessment:
+
+        career = assessment[0]
+        score = assessment[1]
+
+        skills = [
+            skill.strip()
+            for skill in assessment[2].split(",")
+            if skill.strip()
+        ]
+
+    # ------------------------------------------
+    # CAREER ROADMAP
+    # ------------------------------------------
+
+    roadmaps = {
+
+        "Software Developer": [
+            "Learn Python fundamentals",
+            "Learn HTML, CSS and JavaScript",
+            "Build small web projects",
+            "Learn Git and GitHub",
+            "Build a professional portfolio",
+            "Apply for internships"
+        ],
+
+        "Data Analyst": [
+            "Learn Excel fundamentals",
+            "Learn SQL",
+            "Learn Python for data analysis",
+            "Learn data visualization",
+            "Work on data analysis projects",
+            "Build a data analyst portfolio"
+        ],
+
+        "UI/UX Designer": [
+            "Learn UI/UX fundamentals",
+            "Learn Figma",
+            "Study UX research",
+            "Create wireframes and prototypes",
+            "Design real-world projects",
+            "Build a UI/UX portfolio"
+        ],
+
+        "Business Analyst": [
+            "Learn business analysis fundamentals",
+            "Improve communication skills",
+            "Learn advanced Excel",
+            "Learn basic SQL",
+            "Practice requirement analysis",
+            "Build business analysis case studies"
+        ]
+    }
+
+    roadmap = roadmaps.get(career, [])
+
+    # ------------------------------------------
+    # AVERAGE PROGRESS
+    # ------------------------------------------
+
+    average_progress = 0
+
+    if progress:
+
+        total_progress = sum(
+            value for skill, value in progress
+        )
+
+        average_progress = round(
+            total_progress / len(progress)
+        )
+
+    # ------------------------------------------
+    # FIND LOWEST PROGRESS SKILL
+    # ------------------------------------------
+
+    weakest_skill = None
+    weakest_value = None
+
+    if progress:
+
+        weakest_skill, weakest_value = min(
+            progress,
+            key=lambda item: item[1]
+        )
+
+    # ------------------------------------------
+    # SEND DATA TO CAREER AI PAGE
+    # ------------------------------------------
+
+    return render_template(
+        "career_ai.html",
+
+        career=career,
+
+        score=score,
+
+        skills=skills,
+
+        progress=progress,
+
+        average_progress=average_progress,
+
+        weakest_skill=weakest_skill,
+
+        weakest_value=weakest_value,
+
+        roadmap=roadmap
+    )
+
 # ==========================================
 # LOGOUT
 # ==========================================
