@@ -1,197 +1,296 @@
 <!DOCTYPE html>
+
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CareerPath AI - Results</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<title>CareerPath AI - Results</title>
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f7ff;
-            color: #222;
-        }
+<style>
 
-        .container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 20px;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7ff;
+    color: #222;
+}
 
-        .header h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
-        }
+.container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
 
-        .header p {
-            color: #666;
-        }
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-        .best {
-            background: white;
-            padding: 35px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            margin-bottom: 30px;
-        }
+.header h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
 
-        .best h2 {
-            font-size: 30px;
-        }
+.header p {
+    color: #666;
+    line-height: 1.6;
+}
 
-        .score {
-            font-size: 42px;
-            font-weight: bold;
-            margin: 15px 0;
-        }
+.best {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
 
-        .section-title {
-            text-align: center;
-            margin: 35px 0 20px;
-        }
+.best h2 {
+    font-size: 30px;
+}
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
+.score {
+    font-size: 42px;
+    font-weight: bold;
+    margin: 15px 0;
+    color: #667eea;
+}
 
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 18px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-        }
+.section-title {
+    text-align: center;
+    margin: 35px 0 20px;
+}
 
-        .card h3 {
-            font-size: 22px;
-            margin-top: 0;
-        }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
 
-        .percentage {
-            font-size: 28px;
-            font-weight: bold;
-            margin: 15px 0;
-        }
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
 
-        .reason {
-            color: #555;
-            line-height: 1.6;
-        }
+.card h3 {
+    font-size: 22px;
+    margin-top: 0;
+}
 
-        .skill {
-            display: inline-block;
-            background: #eeeeff;
-            padding: 8px 12px;
-            margin: 5px;
-            border-radius: 20px;
-            font-size: 13px;
-        }
+.percentage {
+    font-size: 28px;
+    font-weight: bold;
+    color: #667eea;
+    margin: 15px 0;
+}
 
-        .section {
-            background: white;
-            padding: 30px;
-            border-radius: 18px;
-            margin-top: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-        }
+.reason {
+    color: #555;
+    line-height: 1.6;
+}
 
-        .gap-card {
-            background: #f7f7ff;
-            padding: 18px;
-            margin: 12px 0;
-            border-radius: 12px;
-        }
+.skill {
+    display: inline-block;
+    background: #eeeeff;
+    padding: 8px 12px;
+    margin: 5px;
+    border-radius: 20px;
+    font-size: 13px;
+}
 
-        .beginner {
-            display: inline-block;
-            background: #ffe5e5;
-            color: #c62828;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
+/* SECTION */
 
-        .roadmap-item {
-            background: #f7f7ff;
-            padding: 17px;
-            margin: 10px 0;
-            border-left: 4px solid #667eea;
-            border-radius: 6px;
-        }
+.section {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    margin-top: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
 
-        .buttons {
-            text-align: center;
-            margin-top: 30px;
-        }
+/* SKILL GAP */
 
-        .btn {
-            display: inline-block;
-            padding: 13px 22px;
-            margin: 5px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-        }
+.gap-card {
+    background: #f7f7ff;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 14px;
+    border: 1px solid #eeeeff;
+}
 
-        .dashboard {
-            background: #222;
-            color: white;
-        }
+.gap-card h3 {
+    margin-top: 0;
+    font-size: 20px;
+}
 
-        .retake {
-            background: #667eea;
-            color: white;
-        }
+.beginner {
+    display: inline-block;
+    background: #ffe5e5;
+    color: #c62828;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
 
-        .home {
-            background: #e5e5e5;
-            color: #222;
-        }
+.gap-card p {
+    color: #666;
+    line-height: 1.6;
+}
 
-        @media (max-width: 700px) {
+/* LEARN BUTTONS */
 
-            .container {
-                margin: 15px auto;
-                padding: 15px;
-            }
+.learn-buttons {
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
 
-            .grid {
-                grid-template-columns: 1fr;
-            }
+.learn-btn {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
 
-            .header h1 {
-                font-size: 28px;
-            }
+.learn-more {
+    background: #667eea;
+    color: white;
+}
 
-            .best h2 {
-                font-size: 25px;
-            }
+.video-btn {
+    background: #222;
+    color: white;
+}
 
-            .score {
-                font-size: 36px;
-            }
+/* LEARN MORE BOX */
 
-            .btn {
-                display: block;
-                margin: 10px 0;
-            }
-        }
-    </style>
+.learn-box {
+    display: none;
+    background: white;
+    margin-top: 18px;
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+}
+
+.learn-box h4 {
+    margin-top: 0;
+    font-size: 19px;
+}
+
+.learn-box p {
+    color: #555;
+    line-height: 1.7;
+}
+
+.learn-box ul {
+    padding-left: 20px;
+}
+
+.learn-box li {
+    margin: 8px 0;
+    color: #555;
+}
+
+/* ROADMAP */
+
+.roadmap-item {
+    background: #f7f7ff;
+    padding: 17px;
+    margin: 10px 0;
+    border-left: 4px solid #667eea;
+    border-radius: 6px;
+}
+
+.roadmap-item strong {
+    color: #667eea;
+}
+
+/* BUTTONS */
+
+.buttons {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 13px 22px;
+    margin: 5px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.dashboard {
+    background: #222;
+    color: white;
+}
+
+.retake {
+    background: #667eea;
+    color: white;
+}
+
+.home {
+    background: #e5e5e5;
+    color: #222;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .container {
+        margin: 15px auto;
+        padding: 15px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+
+    .best h2 {
+        font-size: 25px;
+    }
+
+    .score {
+        font-size: 36px;
+    }
+
+    .btn {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .learn-buttons {
+        flex-direction: column;
+    }
+
+    .learn-btn {
+        text-align: center;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -199,192 +298,567 @@
 
 <div class="container">
 
-    <div class="header">
+```
+<!-- HEADER -->
 
-        <h1>🎉 Your Career Recommendations</h1>
+<div class="header">
 
-        <p>
-            CareerPath AI analyzed your assessment responses
-            and found suitable career paths for you.
-        </p>
+    <h1>🎉 Your Career Recommendations</h1>
 
-    </div>
-
-
-    <!-- BEST CAREER -->
-
-    <div class="best">
-
-        <h2>
-            🚀 {{ career }}
-        </h2>
-
-        <p>
-            Your Best Career Match
-        </p>
-
-        <div class="score">
-            {{ score }}%
-        </div>
-
-        <p>
-            This is your strongest career match based on your assessment.
-        </p>
-
-    </div>
-
-
-    <!-- RECOMMENDATIONS -->
-
-    <h2 class="section-title">
-        🤖 Career Recommendations
-    </h2>
-
-    <div class="grid">
-
-        {% for career_name, data in recommendations %}
-
-        <div class="card">
-
-            <h3>
-
-                {% if loop.index == 1 %}
-                    🥇
-                {% elif loop.index == 2 %}
-                    🥈
-                {% elif loop.index == 3 %}
-                    🥉
-                {% else %}
-                    ⭐
-                {% endif %}
-
-                {{ career_name }}
-
-            </h3>
-
-            <div class="percentage">
-                {{ data.score }}% Match
-            </div>
-
-            <p class="reason">
-
-                <strong>Why this career?</strong><br>
-
-                {{ data.reasons[0] }}
-
-            </p>
-
-            <strong>
-                Required Skills:
-            </strong>
-
-            <div>
-
-                {% for skill in data.skills.split(",") %}
-
-                <span class="skill">
-                    {{ skill.strip() }}
-                </span>
-
-                {% endfor %}
-
-            </div>
-
-        </div>
-
-        {% endfor %}
-
-    </div>
-
-
-    <!-- SKILL GAP -->
-
-    <div class="section">
-
-        <h2>
-            ⚠️ Skill Gap
-        </h2>
-
-        <p>
-            These are the important skills you should develop
-            for your recommended career.
-        </p>
-
-
-        {% for skill in skills %}
-
-        <div class="gap-card">
-
-            <h3>
-                📚 {{ skill }}
-            </h3>
-
-            <span class="beginner">
-                🔴 Beginner
-            </span>
-
-            <p>
-                Start learning this skill and practice it
-                through real projects.
-            </p>
-
-        </div>
-
-        {% endfor %}
-
-    </div>
-
-
-    <!-- ROADMAP -->
-
-    <div class="section">
-
-        <h2>
-            🛣️ {{ career }} Roadmap
-        </h2>
-
-        <p>
-            Follow these steps to build your career skills.
-        </p>
-
-
-        {% for step in roadmap %}
-
-        <div class="roadmap-item">
-
-            <strong>
-                Step {{ loop.index }}:
-            </strong>
-
-            {{ step }}
-
-        </div>
-
-        {% endfor %}
-
-    </div>
-
-
-    <!-- BUTTONS -->
-
-    <div class="buttons">
-
-        <a href="/dashboard" class="btn dashboard">
-            📊 Dashboard
-        </a>
-
-        <a href="/assessment" class="btn retake">
-            🔄 Retake Assessment
-        </a>
-
-        <a href="/" class="btn home">
-            🏠 Home
-        </a>
-
-    </div>
+    <p>
+        CareerPath AI analyzed your assessment responses
+        and found suitable career paths for you.
+    </p>
 
 </div>
 
-</body>
 
+<!-- BEST CAREER -->
+
+<div class="best">
+
+    <h2>🚀 {{ career }}</h2>
+
+    <p>Your Best Career Match</p>
+
+    <div class="score">
+        {{ score }}%
+    </div>
+
+    <p>
+        This is your strongest career match based on your assessment.
+    </p>
+
+</div>
+
+
+<!-- RECOMMENDATIONS -->
+
+<h2 class="section-title">
+    🤖 Career Recommendations
+</h2>
+
+
+<div class="grid">
+
+    {% for career_name, data in recommendations %}
+
+    <div class="card">
+
+        <h3>
+
+            {% if loop.index == 1 %}
+                🥇
+            {% elif loop.index == 2 %}
+                🥈
+            {% elif loop.index == 3 %}
+                🥉
+            {% else %}
+                ⭐
+            {% endif %}
+
+            {{ career_name }}
+
+        </h3>
+
+
+        <div class="percentage">
+            {{ data.score }}% Match
+        </div>
+
+
+        <p class="reason">
+
+            <strong>Why this career?</strong>
+            <br>
+
+            {{ data.reasons[0] }}
+
+        </p>
+
+
+        <strong>
+            Required Skills:
+        </strong>
+
+
+        <div>
+
+            {% for skill in data.skills.split(",") %}
+
+            <span class="skill">
+                {{ skill.strip() }}
+            </span>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+<!-- SKILL GAP -->
+
+<div class="section">
+
+    <h2>⚠️ Skill Gap Analysis</h2>
+
+    <p>
+        These are the important skills you should develop
+        for your recommended career.
+    </p>
+
+
+    {% for skill in skills %}
+
+    <div class="gap-card">
+
+        <h3>
+            📚 {{ skill }}
+        </h3>
+
+
+        <span class="beginner">
+            🔴 Beginner
+        </span>
+
+
+        <p>
+            Start learning this skill and practice it
+            through real projects.
+        </p>
+
+
+        <div class="learn-buttons">
+
+            <!-- LEARN MORE -->
+
+            <button
+                class="learn-btn learn-more"
+                onclick="toggleLearn('{{ loop.index }}')">
+
+                📖 Learn More
+
+            </button>
+
+
+            <!-- VIDEO -->
+
+            <a
+                class="learn-btn video-btn"
+                href="https://www.youtube.com/results?search_query={{ skill|urlencode }}+for+beginners+tutorial"
+                target="_blank">
+
+                🎥 Watch Video
+
+            </a>
+
+        </div>
+
+
+        <!-- INFORMATION -->
+
+        <div
+            class="learn-box"
+            id="learn-{{ loop.index }}">
+
+            {% if "Python" in skill %}
+
+                <h4>🐍 What is Python?</h4>
+
+                <p>
+                    Python is a beginner-friendly programming language
+                    used in web development, automation, data analysis,
+                    Artificial Intelligence and Machine Learning.
+                </p>
+
+                <strong>What should you learn?</strong>
+
+                <ul>
+                    <li>Python syntax and basics</li>
+                    <li>Variables and data types</li>
+                    <li>Conditions and loops</li>
+                    <li>Functions</li>
+                    <li>Lists and dictionaries</li>
+                    <li>Object-oriented programming basics</li>
+                    <li>Small Python projects</li>
+                </ul>
+
+
+            {% elif "JavaScript" in skill %}
+
+                <h4>⚡ What is JavaScript?</h4>
+
+                <p>
+                    JavaScript is a programming language used to make
+                    websites interactive and dynamic.
+                </p>
+
+                <strong>What should you learn?</strong>
+
+                <ul>
+                    <li>JavaScript basics</li>
+                    <li>Variables and data types</li>
+                    <li>Functions</li>
+                    <li>Arrays and objects</li>
+                    <li>DOM manipulation</li>
+                    <li>Events</li>
+                    <li>Build interactive web projects</li>
+                </ul>
+
+
+            {% elif "HTML" in skill %}
+
+                <h4>🌐 What is HTML?</h4>
+
+                <p>
+                    HTML is the standard markup language used to
+                    create the structure of web pages.
+                </p>
+
+                <strong>What should you learn?</strong>
+
+                <ul>
+                    <li>HTML document structure</li>
+                    <li>Headings and paragraphs</li>
+                    <li>Links and images</li>
+                    <li>Forms</li>
+                    <li>Tables</li>
+                    <li>Semantic HTML</li>
+                    <li>Create basic web pages</li>
+                </ul>
+
+
+            {% elif "CSS" in skill %}
+
+                <h4>🎨 What is CSS?</h4>
+
+                <p>
+                    CSS is used to design and style websites.
+                    It controls colors, layouts, spacing and responsive design.
+                </p>
+
+                <strong>What should you learn?</strong>
+
+                <ul>
+                    <li>CSS selectors</li>
+                    <li>Colors and fonts</li>
+                    <li>Box model</li>
+                    <li>Flexbox</li>
+                    <li>CSS Grid</li>
+                    <li>Responsive design</li>
+                    <li>Build modern web layouts</li>
+                </ul>
+
+
+            {% elif "Git" in skill %}
+
+                <h4>🐙 What is Git & GitHub?</h4>
+
+                <p>
+                    Git is a version control system used to track
+                    changes in your project. GitHub is an online
+                    platform used to store and share Git repositories.
+                </p>
+
+                <strong>What should you learn?</strong>
+
+                <ul>
+                    <li>Git basics</li>
+                    <li>git init</li>
+                    <li>git add</li>
+                    <li>git commit</li>
+                    <li>git push</li>
+                    <li>GitHub repositories</li>
+                    <li>Working with project versions</li>
+                </ul>
+
+
+            {% elif "SQL" in skill %}
+
+                <h4>🗄️ What is SQL?</h4>
+
+                <p>
+                    SQL is used to store, manage and retrieve
+                    information from databases.
+                </p>
+
+                <strong>What should you learn?</strong>
+
+                <ul>
+                    <li>Database basics</li>
+                    <li>SELECT queries</li>
+                    <li>INSERT and UPDATE</li>
+                    <li>WHERE and ORDER BY</li>
+                    <li>JOIN operations</li>
+                    <li>Database design</li>
+                    <li>Practice with real datasets</li>
+                </ul>
+
+
+            {% elif "Excel" in skill %}
+
+                <h4>📊 What is Excel?</h4>
+
+                <p>
+                    Microsoft Excel is a spreadsheet application
+                    widely used for data management, calculations
+                    and analysis.
+                </p>
+
+                <strong>What should you learn?</strong>
+
+                <ul>
+                    <li>Excel formulas</li>
+                    <li>Functions</li>
+                    <li>Sorting and filtering</li>
+                    <li>Charts</li>
+                    <li>Pivot tables</li>
+                    <li>Data cleaning</li>
+                    <li>Basic data analysis</li>
+                </ul>
+
+
+            {% elif "Figma" in skill %}
+
+                <h4>🎨 What is Figma?</h4>
+
+                <p>
+                    Figma is a design and prototyping tool used
+                    to create user interfaces and digital products.
+                </p>
+
+                <strong>What should you learn?</strong>
+
+                <ul>
+                    <li>Figma interface</li>
+                    <li>Frames and layers</li>
+                    <li>Colors and typography</li>
+                    <li>Components</li>
+                    <li>Wireframes</li>
+                    <li>Prototypes</li>
+                    <li>Design a complete UI project</li>
+                </ul>
+
+
+            {% elif "Communication" in skill %}
+
+                <h4>🗣️ What is Communication?</h4>
+
+                <p>
+                    Communication skills help you clearly express
+                    ideas, understand requirements and work effectively
+                    with teams and clients.
+                </p>
+
+                <strong>What should you improve?</strong>
+
+                <ul>
+                    <li>Speaking clearly</li>
+                    <li>Listening skills</li>
+                    <li>Professional English</li>
+                    <li>Presentation skills</li>
+                    <li>Team communication</li>
+                    <li>Interview communication</li>
+                </ul>
+
+
+            {% elif "Data Visualization" in skill %}
+
+                <h4>📈 What is Data Visualization?</h4>
+
+                <p>
+                    Data visualization means presenting data using
+                    charts, graphs and dashboards so that useful
+                    patterns can be understood easily.
+                </p>
+
+                <strong>What should you learn?</strong>
+
+                <ul>
+                    <li>Charts and graphs</li>
+                    <li>Choosing the right chart</li>
+                    <li>Data storytelling</li>
+                    <li>Dashboard design</li>
+                    <li>Power BI basics</li>
+                    <li>Creating data dashboards</li>
+                </ul>
+
+
+            {% elif "Business Analysis" in skill %}
+
+                <h4>💼 What is Business Analysis?</h4>
+
+                <p>
+                    Business analysis involves understanding business
+                    problems, gathering requirements and finding
+                    practical solutions.
+                </p>
+
+                <strong>What should you learn?</strong>
+
+                <ul>
+                    <li>Requirement gathering</li>
+                    <li>Problem analysis</li>
+                    <li>Business processes</li>
+                    <li>Documentation</li>
+                    <li>Communication</li>
+                    <li>Basic SQL and Excel</li>
+                    <li>Case study practice</li>
+                </ul>
+
+
+            {% elif "UI Design" in skill %}
+
+                <h4>🖥️ What is UI Design?</h4>
+
+                <p>
+                    UI Design focuses on creating attractive,
+                    clear and easy-to-use interfaces for websites
+                    and applications.
+                </p>
+
+                <strong>What should you learn?</strong>
+
+                <ul>
+                    <li>Design principles</li>
+                    <li>Color theory</li>
+                    <li>Typography</li>
+                    <li>Layout and spacing</li>
+                    <li>Figma</li>
+                    <li>Responsive design</li>
+                    <li>Build a design portfolio</li>
+                </ul>
+
+
+            {% elif "UX Research" in skill %}
+
+                <h4>🔍 What is UX Research?</h4>
+
+                <p>
+                    UX Research helps designers understand users,
+                    their needs and their problems before designing
+                    a product.
+                </p>
+
+                <strong>What should you learn?</strong>
+
+                <ul>
+                    <li>User interviews</li>
+                    <li>User surveys</li>
+                    <li>User personas</li>
+                    <li>User journeys</li>
+                    <li>Usability testing</li>
+                    <li>Research documentation</li>
+                </ul>
+
+
+            {% else %}
+
+                <h4>📚 About {{ skill }}</h4>
+
+                <p>
+                    {{ skill }} is an important skill for your
+                    recommended career. Start with the fundamentals,
+                    practice regularly and build small real-world projects.
+                </p>
+
+                <strong>Recommended learning approach:</strong>
+
+                <ul>
+                    <li>Learn the fundamentals</li>
+                    <li>Practice every day</li>
+                    <li>Follow beginner tutorials</li>
+                    <li>Build small projects</li>
+                    <li>Build one real-world project</li>
+                    <li>Add the project to your portfolio</li>
+                </ul>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+<!-- ROADMAP -->
+
+<div class="section">
+
+    <h2>
+        🛣️ {{ career }} Roadmap
+    </h2>
+
+    <p>
+        Follow these steps to build your career skills.
+    </p>
+
+
+    {% for step in roadmap %}
+
+    <div class="roadmap-item">
+
+        <strong>
+            Step {{ loop.index }}:
+        </strong>
+
+        {{ step }}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+<!-- BUTTONS -->
+
+<div class="buttons">
+
+    <a href="/dashboard" class="btn dashboard">
+        📊 Dashboard
+    </a>
+
+    <a href="/assessment" class="btn retake">
+        🔄 Retake Assessment
+    </a>
+
+    <a href="/" class="btn home">
+        🏠 Home
+    </a>
+
+</div>
+```
+
+</div>
+
+<script>
+
+function toggleLearn(id) {
+
+    const box = document.getElementById("learn-" + id);
+
+    if (box.style.display === "block") {
+
+        box.style.display = "none";
+
+    } else {
+
+        box.style.display = "block";
+
+    }
+
+}
+
+</script>
+
+</body>
 </html>
